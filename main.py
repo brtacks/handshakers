@@ -78,7 +78,7 @@ def get_debaters(soup, debate_type):
 
     return debaters
 
-def init_transcript(soup, pid):
+def init_transcript(soup, url):
     date = soup.find('span', attrs={'class': 'docdate'})
     date = get_date_from_str(date.text)
     papers_title = soup.find('span', attrs={'class': 'paperstitle'}).text
@@ -92,7 +92,7 @@ def init_transcript(soup, pid):
 
     if debate_type is None or date is None:
         raise ValueError(
-            "Could not get date and debate_type from debate with PID %d." % pid
+            "Could not get date and debate_type from debate with at %s." % url
         )
     return {
         'date': date,
@@ -114,16 +114,16 @@ def get_date_from_str(str):
         int(date_components[1]), # day
     )
 
-def get_soup_from_pid(pid):
-    r = requests.get('http://www.presidency.ucsb.edu/ws/index.php?pid=%d' % pid)
+def get_soup(url):
+    r = requests.get(url)
     return bs4(r.content, 'lxml')
 
-def print_transcript(transcript):
-    print "== % Debate, % =====" (t['debate_type'], str(t['date']))
+def print_transcript(t):
+    print "== %s Debate, %s =====" % (t['debate_type'], str(t['date']))
     print "PARTICIPANTS:"
-    for name, v in transcript['debaters'].items():
+    for name, v in t['debaters'].items():
         print "  %s (%s)" % (name, v['party'])
     print "\n"
 
 if __name__ == '__main__':
-    create_transcript(76223)
+    collect_transcripts()
