@@ -183,12 +183,33 @@ def get_debaters(soup, debate_type, year):
 
     return debaters
 
+# The format of debate transcript varies by year and debate type (presidential
+# or primary).
+def find_debaters(text, debate_type, year):
+    title_pattern = TITLE_PATTERNS[debate_type]
+    debaters = {}
+    if year == 2016 or year >= 2000 and 
+    for i in text.children:
+        if i.name == 'p':
+            break
+        line = str(i)
+        match = title_pattern.search(line)
+        if match:
+            debaters[match.group(1).upper()] = {
+                'lines': [0],
+                'party': match.group(2) if debate_type == PRESIDENTIAL
+                else debate_type[0]
+            }
+    return debaters
+
 def init_transcript(soup, url):
     date = soup.find('span', attrs={'class': 'docdate'})
     date = get_date_from_str(date.text)
     papers_title = soup.find('span', attrs={'class': 'paperstitle'}).text
     debate_type = None
-    if 'Democratic' in papers_title:
+    if 'Vice' in papers_title:
+        debate_type = VICE_PRESIDENTIAL
+    ELif 'Democratic' in papers_title:
         debate_type = DEMOCRATIC
     elif 'Republican' in papers_title:
         debate_type = REPUBLICAN
