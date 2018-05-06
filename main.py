@@ -19,39 +19,55 @@ REPUBLICAN = 'Republican'
 
 TITLE_PATTERNS = {
     PRESIDENTIAL: re.compile(r'(\S+)\s\((D|R)(\S+)?\)'),
-    DEMOCRATIC: re.compile(r'\w+((\s\([\w\s]+\))|;)'),
-    REPUBLICAN: re.compile(r'\w+((\s\([\w\s]+\))|;)'),
+    DEMOCRATIC: re.compile(r'(\w+)((\s\([\w\s]+\))|;)'),
+    REPUBLICAN: re.compile(r'(\w+)((\s\([\w\s]+\))|;)'),
 }
 
+def collect_transcripts():
+    r = requests.get('http://www.presidency.ucsb.edu/debates.php')
+    soup = bs4(r.content, 'lxml')
+    docdate = soup.find('span', attrs={'class': 'docdate'})
+    table = docdate.parent.table.table
+    for tr in table.find_all('tr'):
+        if tr.a:
+            url = tr.a.attrs['href']
+            create_transcript(url)
+
 # create_transcript creates a transcript dictionary.
-def create_transcript(pid):
-    soup = get_soup_from_pid(pid)
-    transcript = init_transcript(soup, pid)
+def create_transcript(url):
+    soup = get_soup(url)
+    transcript = init_transcript(soup, url)
     transcript['debaters'] = get_debaters(soup, transcript['debate_type'])
+    print_transcript(transcript)
 
 # get_debaters finds each candidate and every line they spoke.
 def get_debaters(soup, debate_type):
     text = soup.find('span', attrs={'class': 'displaytext'})
     title_pattern = TITLE_PATTERNS[debate_type]
-    debaters = {
-        title_pattern.search(i).group(1).upper(): {
-            'party': title_pattern.search(i).group(2)
-            if debate_type == PRESIDENTIAL
-            else debate_type[0],
-            'lines': [],
-        }
-        for i in text.find_all(string=title_pattern)
-    }
+    debaters = {}
+    for i in text.children:
+        if i.name == 'p':
+            break
+        line = str(i)
+        match = title_pattern.search(line)
+        if match:
+            debaters[match.group(1).upper()] = {
+                'lines': [0],
+                'party': match.group(2) if debate_type == PRESIDENTIAL
+                else debate_type[0]
+            }
+    if len(debaters) == 0:
+        return debaters
     lines = text.find_all('p')
 
     current_debater = None
     for line in lines:
         if line.b:
-            speaker = line.b.string.strip(':')
-        if speaker in debaters:
-            current_debater = speaker
-        else:
-            current_debater = None
+            speaker = line.b.text.strip(':')
+            if speaker in debaters:
+                current_debater = speaker
+            else:
+                current_debater = None
         if current_debater:
             if line.b:
                 clean_text = line.text.replace(line.b.text, '')
