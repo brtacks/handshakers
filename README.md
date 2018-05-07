@@ -18,7 +18,7 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 | 1996 | _The President.<br>...Dole._ | KEMP:<br>GORE: | - |
 | 1992 | Governor Clinton.<br>President Bush. | GORE:<br>...QUAYLE: | - |
 | 1988 | DUKAKIS:<br>BUSH: | QUAYLE:<br>BENTSEN: | - |
-| 1984 | The President.<br>Mr. Mondale. | participants | - |
+| 1984 | The President.<br>Mr. Mondale. | FERRARO:<br>BUSH: | - |
 | 1980 | THE PRESIDENT.<br>GOVERNOR REAGAN. | - | - |
 | 1976 | THE PRESIDENT.<br>MR. CARTER. | DOLE:<br>MONDALE: | - |
 | 1960 | MR. NIXON:<br>MR. KENNEDY: | - | - |
