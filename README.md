@@ -16,7 +16,7 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 | 2004 | _...Bush.<br/>Kerry._ | CHENEY:<br>EDWARDS: | participants |
 | 2000 | BUSH:<br>GORE: | CHENEY:<br>LIEBERMAN: | participants |
 | 1996 | _The President.<br>...Dole._ | KEMP:<br>GORE: | - |
-| 1992 | Governor Clinton.<br>President Bush. | GORE:<br>...QUAYLE | - |
+| 1992 | Governor Clinton.<br>President Bush. | GORE:<br>...QUAYLE: | - |
 | 1988 | DUKAKIS:<br>BUSH: | QUAYLE:<br>BENTSEN: | - |
 | 1984 | The President.<br>Mr. Mondale. | participants | - |
 | 1980 | THE PRESIDENT.<br>GOVERNOR REAGAN. | - | - |
