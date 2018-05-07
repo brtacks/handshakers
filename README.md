@@ -20,5 +20,5 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 | 1988 | DUKAKIS:<br>BUSH: | QUAYLE:<br>BENTSEN: | - |
 | 1984 | The President.<br>Mr. Mondale. | participants | - |
 | 1980 | THE PRESIDENT.<br>GOVERNOR REAGAN. | - | - |
-| 1976 | THE PRESIDENT.<br>MR. CARTER | DOLE:<br>MONDALE: | - |
+| 1976 | THE PRESIDENT.<br>MR. CARTER. | DOLE:<br>MONDALE: | - |
 | 1960 | MR. NIXON:<br>MR. KENNEDY: | - | - |
