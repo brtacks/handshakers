@@ -18,42 +18,60 @@ VICE_PRESIDENTIAL = 'Vice Presidential'
 DEMOCRATIC = 'Democratic'
 REPUBLICAN = 'Republican'
 
-TITLE_PATTERNS = {
-    PRESIDENTIAL: re.compile(r'(\S+)\s\((D|R)(\S+)?\)'),
-    VICE_PRESIDENTIAL: re.compile(r'(\S+)\s\((D|R)(\S+)?\)'),
-    DEMOCRATIC: re.compile(r'(\w+)((\s\([\w\s]+\))|;)'),
-    REPUBLICAN: re.compile(r'(\w+)((\s\([\w\s]+\))|;)'),
+# Don't specify party; check for opposites.
+PRESIDENTS_BY_YEAR = {
+    2012: 'OBAMA',
+    1996: 'BUSH',
+    1984: 'REAGAN',
+    1980: 'REAGAN',
+    1976: 'FORD',
 }
 
-DEBATORS_BY_YEAR = {
+TITLE_A = 'bold'
+TITLE_B = 'italics'
+TITLE_C = 'regular'
+
+TITLE_PATTERNS = {
+    TITLE_A: r'(?i)(\w+):',
+    TITLE_B: r'(?i)(\w+)\.',
+    TITLE_C: '',
+}
+
+DEBATERS_BY_YEAR = {
     2012: {
         PRESIDENTIAL: {
             'OBAMA': 'D',
             'ROMNEY': 'R',
+            'pattern': TITLE_B,
         },
         VICE_PRESIDENTIAL: {
             'BIDEN': 'D',
             'RYAN': 'R',
+            'pattern': TITLE_A,
         },
     },
     2008: {
         PRESIDENTIAL: {
             'OBAMA': 'D',
             'MCCAIN': 'R',
+            'pattern': TITLE_A,
         },
         VICE_PRESIDENTIAL: {
             'BIDEN': 'D',
             'PALIN': 'R',
+            'pattern': TITLE_A,
         },
     },
     2004: {
         PRESIDENTIAL: {
             'KERRY': 'D',
             'BUSH': 'R',
+            'pattern': TITLE_B,
         }
         VICE_PRESIDENTIAL: {
             'EDWARDS': 'D',
             'CHENEY': 'R',
+            'pattern': TITLE_C,
         },
         DEMOCRATIC: ['CLARK', 'LIEBERMAN', 'KUCINICH', 'DEAN', 'KERRY',
                      'SHARPTON', 'EDWARDS'],
@@ -62,76 +80,86 @@ DEBATORS_BY_YEAR = {
         PRESIDENTIAL: {
             'GORE': 'D',
             'BUSH': 'R',
+            'pattern': TITLE_C,
         },
         VICE_PRESIDENTIAL: {
             'LIEBERMAN': 'D',
             'CHENEY': 'R',
+            'pattern': TITLE_C,
         },
     },
     1996: {
         PRESIDENTIAL: {
             'CLINTON': 'D',
             'DOLE': 'R',
+            'pattern': TITLE_B,
         },
         VICE_PRESIDENTIAL: {
             'GORE': 'D',
             'KEMP': 'R',
+            'pattern': TITLE_C,
         },
     },
     1992: {
         PRESIDENTIAL: {
             'CLINTON': 'D',
             'BUSH': 'R',
+            'pattern': TITLE_C,
         },
         VICE_PRESIDENTIAL: {
             'GORE': 'D',
             'QUAYLE': 'R',
+            'pattern': TITLE_C,
         },
     },
     1988: {
         PRESIDENTIAL: {
             'DUKAKIS': 'D',
             'BUSH': 'R',
+            'pattern': TITLE_C,
         },
         VICE_PRESIDENTIAL: {
             'BENTSEN': 'D',
             'QUAYLE': 'R',
+            'pattern': TITLE_C,
         },
     },
     1984: {
         PRESIDENTIAL: {
             'MONDALE': 'D',
             'REAGAN': 'R',
+            'pattern': TITLE_C,
         },
         VICE_PRESIDENTIAL: {
             'FERRARO': 'D',
             'BUSH': 'R',
+            'pattern': TITLE_C,
         },
     },
     1980: {
         PRESIDENTIAL: {
             'CARTER': 'D',
             'REAGAN': 'R',
-        },
-        VICE_PRESIDENTIAL: {
-            'LIEBERMAN': 'D',
-            'CHENEY': 'R',
+            'pattern': TITLE_C,
         },
     },
     1976: {
         PRESIDENTIAL: {
             'CARTER': 'D',
             'FORD': 'R',
+            'pattern': TITLE_C,
         },
         VICE_PRESIDENTIAL: {
             'MONDALE': 'D',
             'DOLE': 'R',
+            'pattern': TITLE_C,
         },
     },
     1960: {
         PRESIDENTIAL: {
             'KENNEDY': 'D',
             'NIXON': 'R',
+            'pattern': TITLE_C,
         },
     },
 }
@@ -167,6 +195,7 @@ def get_debaters(soup, debate_type, year):
 
     current_debater = None
     for line in lines:
+        if DEBATERS_BY_YEAR[year][DEBATE_TYPE]
         if line.b:
             speaker = line.b.text.strip(':')
             if speaker in debaters:
@@ -186,21 +215,31 @@ def get_debaters(soup, debate_type, year):
 # The format of debate transcript varies by year and debate type (presidential
 # or primary).
 def find_debaters(text, debate_type, year):
-    title_pattern = TITLE_PATTERNS[debate_type]
     debaters = {}
-    if year == 2016 or year >= 2000 and 
     for i in text.children:
-        if i.name == 'p':
-            break
-        line = str(i)
-        match = title_pattern.search(line)
-        if match:
-            debaters[match.group(1).upper()] = {
-                'lines': [0],
-                'party': match.group(2) if debate_type == PRESIDENTIAL
-                else debate_type[0]
+        debater = line_debater(i.text, debate_type, year)
+        if debater:
+            debaters[debater] = {
+                'lines': [],
+                'party': DEBATERS_BY_YEAR[year][debate_type][debater]
             }
     return debaters
+
+# line_debater finds the debater name in a string.
+def line_debater(line, debate_type, year):
+    pattern_title = DEBATERS_BY_YEAR[year][debate_type]['pattern']
+    pattern = TITLE_PATTERNS[pattern_title]
+    if pattern != TITLE_C:
+        match = re.search(pattern, line)
+    else:
+        if ':' in line:
+            comps = line.split(':')[0].split(' ')
+            if len(comps) > 0:
+                match = re.search(r'^[A-Z]:$', comps[0])
+                if match:
+                    return match.group(1)
+    if match.group(1) == 'President':
+        return PRESIDENTS_BY_YEAR[year]
 
 def init_transcript(soup, url):
     date = soup.find('span', attrs={'class': 'docdate'})
@@ -249,7 +288,7 @@ def print_transcript(t):
     print "PARTICIPANTS:"
     for name, v in t['debaters'].items():
         print "  %s (%s)" % (name, v['party'])
-    print "\n"
+        print "\n"
 
 if __name__ == '__main__':
     collect_transcripts()
