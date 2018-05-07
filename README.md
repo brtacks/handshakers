@@ -13,7 +13,7 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 | 2016 | participants | participants | participants |
 | 2012 | _The President.<br>...Romney._ | __...BIDEN:<br>...RYAN:__ | participants |
 | 2008 | __OBAMA:__<br>`(?i)`__MCCAIN:__ | __BIDEN:<br>PALIN:__ | participants |
-| 2004 | _...Bush.<br/>Kerry._ | CHENEY:<br>EDWARDS: | participants |
+| 2004 | _...Bush.<br/>Kerry._ | CHENEY:<br>EDWARDS: | non-participants |
 | 2000 | BUSH:<br>GORE: | CHENEY:<br>LIEBERMAN: | participants |
 | 1996 | _The President.<br>...Dole._ | KEMP:<br>GORE: | - |
 | 1992 | Governor Clinton.<br>President Bush. | GORE:<br>...QUAYLE: | - |
