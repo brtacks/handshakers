@@ -179,7 +179,7 @@ def collect_transcripts():
                 year = int(year_label.text)
             except ValueError:
                 pass
-        if tr.a and year <= 2008:
+        if tr.a:
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
@@ -199,7 +199,7 @@ def create_transcript(url, year):
         if len(v['lines']) == 0:
             print "A debater has zero lines:", url
             sys.exit(0)
-    print_transcript(transcript)
+    # print_transcript(transcript)
 
 
 # get_debater_lines finds each candidate and every line they spoke.
@@ -273,7 +273,7 @@ def find_debaters(soup, debate_type, year):
                     'party': party
                 }
             return debaters
-        match = re.search(r'(\w+)(?:\s\(([\w\s-]+)\)|;)', str(i))
+        match = re.search(r'(\w+)(?:,\sJr\.)?(?:\s\(([-\w\s\.]+)\)|;)', str(i))
         name, party = None, None
         if match:
             name = match.group(1)
@@ -282,6 +282,8 @@ def find_debaters(soup, debate_type, year):
             else:
                 party = debate_type[0]
         elif i.name is None:
+            if i.strip() == '':
+                continue
             name = i.split(' ')[-1]
             for year in DEBATERS_BY_YEAR.values():
                 for debate in year.values():
@@ -387,5 +389,3 @@ def print_transcript(t):
 
 if __name__ == '__main__':
     collect_transcripts()
-    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=76561'
-    create_transcript(url, 2012)
