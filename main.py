@@ -179,7 +179,7 @@ def collect_transcripts():
                 year = int(year_label.text)
             except ValueError:
                 pass
-        if tr.a and year <= 1996:
+        if tr.a and year <= 1992:
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
@@ -355,7 +355,9 @@ def line_speaker(line, debate_type, year):
     pattern = TITLE_PATTERNS[title]
     match = None
 
-    ignored_titles = re.compile(r'(?i)(?:The|Mr|Ms|Mrs|Gov|Sen|Rep)\.')
+    ignored_titles = re.compile(
+        r'(?i)(?:The|Mr|Ms|Mrs|Governor|Gov|Senator|Sen|Rep)\.?'
+    )
 
     if title == TITLE_A or title == TITLE_P:
         # Speaker titles are in bold and match '(?i)(\w+):'
@@ -390,9 +392,12 @@ def line_speaker(line, debate_type, year):
             # When the moderator asks the president to answer a question, the
             # line may just be "Mr. President." Therefore, we ignore only the
             # titles that cannot be used to address the President (e.g. Gov.)
-            text = re.sub(r'(?i)(?:The|Gov|Sen|Rep)\.', '', line.text.strip())
-            # Case 2 titles match '(?i)^([\w{2,}]+)(?:\.|:)'
-            match = re.search(r'(?i)^([\w]{2,})(?:\.|:)', text)
+            text = re.sub(
+                r'(?i)(?:The|Governor|Gov|Senator|Sen|Rep)\.?',
+                '',
+                line.text
+            ).strip()
+            match = re.search(r'(?i)^(?:President\s)?([\w]{2,})(?:\.|:)', text)
 
     return match
 
@@ -447,6 +452,6 @@ def print_transcript(t):
     print
 
 if __name__ == '__main__':
-    #collect_transcripts()
-    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=21625'
-    create_transcript(url, 1992)
+    collect_transcripts()
+    #url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=21625'
+    #create_transcript(url, 1992)
