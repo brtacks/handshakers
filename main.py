@@ -171,10 +171,14 @@ def collect_transcripts():
     docdate = soup.find('span', attrs={'class': 'docdate'})
     table = docdate.parent.table.table
     year = None
+
     for tr in table.find_all('tr'):
         year_label = tr.find('td', attrs={'class':'roman'})
         if year_label is not None:
-            year = int(year_label.text)
+            try:
+                year = int(year_label.text)
+            except ValueError:
+                pass
         if tr.a:
             url = tr.a.attrs['href']
             create_transcript(url, year)
@@ -183,64 +187,151 @@ def collect_transcripts():
 def create_transcript(url, year):
     soup = get_soup(url)
     transcript = init_transcript(soup, url)
-    transcript['debaters'] = get_debaters(soup, transcript['debate_type'], year)
+    transcript['debaters'] = get_debater_lines(
+        soup,
+        transcript['debate_type'],
+        year,
+    )
+    if len(transcript['debaters']) == 0:
+        print url
+        sys.exit(0)
+    for v in transcript['debaters'].values():
+        if len(v['lines']) == 0:
+            print url
+            sys.exit(0)
     print_transcript(transcript)
 
-# get_debaters finds each candidate and every line they spoke.
-def get_debaters(soup, debate_type, year):
-    text = soup.find('span', attrs={'class': 'displaytext'})
-    debaters = find_debaters(text, debate_type, year)
+
+# get_debater_lines finds each candidate and every line they spoke.
+def get_debater_lines(soup, debate_type, year):
+    transcript = soup.find('span', attrs={'class': 'displaytext'})
+    debaters = find_debaters(transcript, debate_type, year)
+    lines = transcript.find_all('p')
+    debater_lines = {}
+    debaters.pop('pattern', None)
     if len(debaters) == 0:
         return debaters
-    lines = text.find_all('p')
 
     current_debater = None
     for line in lines:
-        if DEBATERS_BY_YEAR[year][DEBATE_TYPE]
-        if line.b:
-            speaker = line.b.text.strip(':')
+        text = line.text
+        speaker_match = line_speaker(line, debate_type, year)
+        if speaker_match:
+            speaker = speaker_match.group(1).upper()
+            if speaker == 'PRESIDENT':
+                speaker = PRESIDENTS_BY_YEAR[year]
             if speaker in debaters:
                 current_debater = speaker
+                text = text[
+                    text.find(speaker_match.group()) +
+                    len(speaker_match.group()):
+                ]
             else:
                 current_debater = None
         if current_debater:
-            if line.b:
-                clean_text = line.text.replace(line.b.text, '')
-            else:
-                clean_text = line.text
-                clean_text = clean_text.strip()
-                debaters[current_debater]['lines'].append(clean_text)
+            debaters[current_debater]['lines'].append(text.strip())
 
     return debaters
+
 
 # The format of debate transcript varies by year and debate type (presidential
 # or primary).
-def find_debaters(text, debate_type, year):
-    debaters = {}
-    for i in text.children:
-        debater = line_debater(i.text, debate_type, year)
-        if debater:
-            debaters[debater] = {
+def find_debaters(soup, debate_type, year):
+    try:
+        debaters = DEBATERS_BY_YEAR[year][debate_type].copy()
+        for k, v in debaters.items():
+            debaters[k] = {
                 'lines': [],
-                'party': DEBATERS_BY_YEAR[year][debate_type][debater]
+                'party': v,
+            }
+        return debaters
+    except KeyError:
+        # Debaters aren't hardcoded into the dictionary because the scraped
+        # website listed the participants at the beginning of the transcript.
+        pass
+
+    pattern = TITLE_PATTERNS[TITLE_P]
+    debaters = {}
+    for idx, i in enumerate(soup.children):
+        if i.name == 'p':
+            # The participants list is in non-p tags at the top of the
+            # transcript. However, it may be stuck between two <p>'s due to bad
+            # employees at UC Santa Barbara, and we need to check.
+            if i > 0:
+                break
+            matches = re.finditer(r'(\w+)(?:\s\(([\w\s-]+)\)|;)', str(i))
+            for m in matches:
+                if 'and' in m.group():
+                    continue
+                name = m.group(1)
+                if PRESIDENTIAL in debate_type:
+                    party = m.group(2)[0]
+                else:
+                    party = debate_type[0]
+                debaters[name.upper()] = {
+                    'lines': [],
+                    'party': party
+                }
+            return debaters
+        match = re.search(r'(\w+)(?:\s\(([\w\s-]+)\)|;)', str(i))
+        name, party = None, None
+        if match:
+            name = match.group(1)
+            if PRESIDENTIAL in debate_type:
+                party = match.group(2)[0]
+            else:
+                party = debate_type[0]
+        elif i.name is None:
+            name = i.split(' ')[-1]
+            for year in DEBATERS_BY_YEAR.values():
+                for debate in year.values():
+                    if name in debate:
+                        party = debate[name]
+            if party is None:
+                print "Could not find party for title " +  str(i)
+        if name is not None and party is not None:
+            debaters[name.upper()] = {
+                'lines': [],
+                'party': party
             }
     return debaters
 
-# line_debater finds the debater name in a string.
-def line_debater(line, debate_type, year):
-    pattern_title = DEBATERS_BY_YEAR[year][debate_type]['pattern']
-    pattern = TITLE_PATTERNS[pattern_title]
-    if pattern != TITLE_C:
-        match = re.search(pattern, line)
-    else:
+
+# line_speaker finds the speaker's name in a string as a regex match object.
+def line_speaker(line, debate_type, year):
+    try:
+        title = DEBATERS_BY_YEAR[year][debate_type]['pattern']
+    except KeyError:
+        title = TITLE_P
+    pattern = TITLE_PATTERNS[title]
+    match = None
+
+    ignored_titles = re.compile(r'(?:Mr|Ms|Mrs|Gov|Sen)\.')
+
+    if title == TITLE_A or title == TITLE_P:
+        # Speaker titles are in bold and match '(?i)(\w+):'
+        if line.b:
+            text = ignored_titles.sub('', line.b.text)
+            match = re.search(r'(?i)(\w+):', text)
+            if match is None:
+                match = re.search(r'<b>([\w]+)<\/b>:', str(line))
+    elif title == TITLE_B:
+        # Speaker titles are in italics and match '(?i)(\w+)\.'
+        if line.i:
+            text = ignored_titles.sub('', line.i.text)
+            match = re.search(pattern, text)
+    elif title == TITLE_C:
+        # Speaker titles are at the beginning of the line.
+        text = ignored_titles.sub('', line)
         if ':' in line:
-            comps = line.split(':')[0].split(' ')
-            if len(comps) > 0:
-                match = re.search(r'^[A-Z]:$', comps[0])
-                if match:
-                    return match.group(1)
-    if match.group(1) == 'President':
-        return PRESIDENTS_BY_YEAR[year]
+            # Case 1 titles match '([A-Z]+):'
+            match = re.search(r'([A-Z]+):', text)
+        else:
+            # Case 2 titles match '(?i)([\w]+)(?:\.|:)'
+            match = re.search(r'(?i)([\w]+)(?:\.|:)', text)
+
+    return match
+
 
 def init_transcript(soup, url):
     date = soup.find('span', attrs={'class': 'docdate'})
