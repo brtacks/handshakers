@@ -179,7 +179,7 @@ def collect_transcripts():
                 year = int(year_label.text)
             except ValueError:
                 pass
-        if tr.a and year <= 1992:
+        if tr.a and year <= 1988:
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
@@ -220,6 +220,7 @@ def get_debater_lines(soup, debate_type, year, datetime):
         speaker_match = line_speaker(line, debate_type, year)
         if speaker_match:
             speaker = speaker_match.group(1).upper()
+            print speaker
             if speaker == 'PRESIDENT':
                 speaker = PRESIDENTS_BY_YEAR[year]
             if speaker in debaters:
@@ -356,7 +357,7 @@ def line_speaker(line, debate_type, year):
     match = None
 
     ignored_titles = re.compile(
-        r'(?i)(?:The|Mr|Ms|Mrs|Governor|Gov|Senator|Sen|Rep)\.?'
+        r'(?i)The|Mr\.|Ms\.|Mrs\.|Governor|Gov\.|Senator|Sen\.|Rep\.'
     )
 
     if title == TITLE_A or title == TITLE_P:
@@ -393,7 +394,7 @@ def line_speaker(line, debate_type, year):
             # line may just be "Mr. President." Therefore, we ignore only the
             # titles that cannot be used to address the President (e.g. Gov.)
             text = re.sub(
-                r'(?i)(?:The|Governor|Gov|Senator|Sen|Rep)\.?',
+                r'(?i)The|Governor|Gov\.|Senator|Sen\.|Rep\.',
                 '',
                 line.text
             ).strip()
@@ -452,6 +453,6 @@ def print_transcript(t):
     print
 
 if __name__ == '__main__':
-    collect_transcripts()
-    #url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=21625'
-    #create_transcript(url, 1992)
+    #collect_transcripts()
+    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=29424'
+    create_transcript(url, 1988)
