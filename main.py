@@ -392,11 +392,10 @@ def line_speaker(line, debate_type, year):
             # When the moderator asks the president to answer a question, the
             # line may just be "Mr. President." Therefore, we ignore only the
             # titles that cannot be used to address the President (e.g. Gov.)
-            text = re.sub(
-                r'(?i)The|Governor|Gov\.|Senator|Sen\.|Rep\.',
-                '',
-                line.text
-            ).strip()
+            text = ignored_titles.sub('', line.text).strip()
+            print line.text
+            if line.text.strip() == "Mr. President.":
+                return None
             match = re.search(r'(?i)^(?:President\s)?([\w]{2,})(?:\.|:)', text)
 
     return match
@@ -453,5 +452,5 @@ def print_transcript(t):
 
 if __name__ == '__main__':
     collect_transcripts()
-    #url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=29424'
-    #create_transcript(url, 1988)
+    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=39296'
+    create_transcript(url, 1984)
