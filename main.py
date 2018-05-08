@@ -248,13 +248,22 @@ def find_debaters(soup, debate_type, year, datetime):
             } for x in debaters
         }
     try:
-        debaters = DEBATERS_BY_YEAR[year][debate_type].copy()
-        for k, v in debaters.items():
-            debaters[k] = {
-                'lines': [],
-                'party': v,
+        debaters = DEBATERS_BY_YEAR[year][debate_type]
+        if type(debaters) is dict:
+            debaters = debaters.copy()
+            for k, v in debaters.items():
+                debaters[k] = {
+                    'lines': [],
+                    'party': v,
+                }
+            return debaters
+        elif type(debaters) is list:
+            return {
+                x: {
+                    'lines': [],
+                    'party': 'D',
+                } for x in debaters
             }
-        return debaters
     except KeyError:
         # Debaters aren't hardcoded into the dictionary because the scraped
         # website listed the participants at the beginning of the transcript.
