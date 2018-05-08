@@ -340,9 +340,9 @@ def init_transcript(soup, url):
     debate_type = None
     if 'Vice' in papers_title:
         debate_type = VICE_PRESIDENTIAL
-    ELif 'Democratic' in papers_title:
+    elif 'Democratic' in papers_title:
         debate_type = DEMOCRATIC
-    elif 'Republican' in papers_title:
+    elif 'Republican' in papers_title or 'Forum' in papers_title:
         debate_type = REPUBLICAN
     elif 'Presidential' in papers_title:
         debate_type = PRESIDENTIAL
@@ -379,8 +379,10 @@ def print_transcript(t):
     print "== %s Debate, %s =====" % (t['debate_type'], str(t['date']))
     print "PARTICIPANTS:"
     for name, v in t['debaters'].items():
-        print "  %s (%s)" % (name, v['party'])
-        print "\n"
+        print "  %s (%s): %d lines spoken" % (name, v['party'], len(v['lines']))
+    print
 
 if __name__ == '__main__':
     collect_transcripts()
+    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=97038'
+    create_transcript(url, 2012)
