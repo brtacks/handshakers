@@ -3,7 +3,6 @@ from datetime import date
 
 import requests
 import re
-import sys
 
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
           'August', 'September', 'October', 'November', 'December']
@@ -195,12 +194,10 @@ def create_transcript(url, year):
         transcript['date'], # Date of debate
     )
     if len(transcript['debaters']) == 0:
-        print "No participants found:", url
-        sys.exit(0)
+        raise ValueError("No participants found: %s" % url)
     for v in transcript['debaters'].values():
         if len(v['lines']) == 0:
-            print "A debater has zero lines:", url
-            sys.exit(0)
+            raise ValueError("Debater %s has zero lines: %s" % (v, url))
     print_transcript(transcript)
 
 
