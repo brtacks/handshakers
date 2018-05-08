@@ -179,7 +179,7 @@ def collect_transcripts():
                 year = int(year_label.text)
             except ValueError:
                 pass
-        if tr.a and year <= 1988:
+        if tr.a and year <= 1980:
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
@@ -263,6 +263,13 @@ def find_debaters(soup, debate_type, year, datetime):
         debaters = DEBATERS_BY_YEAR[year][debate_type]
         if type(debaters) is dict:
             debaters = debaters.copy()
+            if datetime == date(1980, 9, 21):
+                # The two presidential debates in 1980 did not have the same two
+                # candidates. 9/21 had Anderson-Reagan, 10/28 had Carter-Reagan.
+                debaters = {
+                    'ANDERSON': 'D',
+                    'REAGAN': 'R',
+                }
             for k, v in debaters.items():
                 debaters[k] = {
                     'lines': [],
@@ -393,7 +400,6 @@ def line_speaker(line, debate_type, year):
             # line may just be "Mr. President." Therefore, we ignore only the
             # titles that cannot be used to address the President (e.g. Gov.)
             text = ignored_titles.sub('', line.text).strip()
-            print line.text
             if line.text.strip() == "Mr. President.":
                 return None
             match = re.search(r'(?i)^(?:President\s)?([\w]{2,})(?:\.|:)', text)
@@ -452,5 +458,5 @@ def print_transcript(t):
 
 if __name__ == '__main__':
     collect_transcripts()
-    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=39296'
-    create_transcript(url, 1984)
+    #url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=39296'
+    #create_transcript(url, 1984)
