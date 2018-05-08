@@ -220,7 +220,6 @@ def get_debater_lines(soup, debate_type, year, datetime):
         speaker_match = line_speaker(line, debate_type, year)
         if speaker_match:
             speaker = speaker_match.group(1).upper()
-            print speaker
             if speaker == 'PRESIDENT':
                 speaker = PRESIDENTS_BY_YEAR[year]
             if speaker in debaters:
@@ -408,13 +407,13 @@ def init_transcript(soup, url):
     date = get_date_from_str(date.text)
     papers_title = soup.find('span', attrs={'class': 'paperstitle'}).text
     debate_type = None
-    if 'Vice' in papers_title:
+    if VICE_PRESIDENTIAL in papers_title:
         debate_type = VICE_PRESIDENTIAL
     elif 'Democratic' in papers_title:
         debate_type = DEMOCRATIC
     elif 'Republican' in papers_title or 'Forum' in papers_title:
         debate_type = REPUBLICAN
-    elif 'Presidential' in papers_title:
+    else:
         debate_type = PRESIDENTIAL
 
     if debate_type is None or date is None:
@@ -453,6 +452,6 @@ def print_transcript(t):
     print
 
 if __name__ == '__main__':
-    #collect_transcripts()
-    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=29424'
-    create_transcript(url, 1988)
+    collect_transcripts()
+    #url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=29424'
+    #create_transcript(url, 1988)
