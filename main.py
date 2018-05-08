@@ -178,7 +178,7 @@ def collect_transcripts():
                 year = int(year_label.text)
             except ValueError:
                 pass
-        if tr.a:
+        if tr.a and year <= 2008:
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
@@ -265,11 +265,20 @@ def find_debaters(soup, debate_type, year, datetime):
     for idx, i in enumerate(soup.children):
         if i.name == 'p':
             # The participants list is in non-p tags at the top of the
-            # transcript. However, it may be stuck between two <p>'s due to bad
-            # employees at UC Santa Barbara, and we need to check.
-            if idx > 0:
+            # transcript.
+            # However, the list may also be stored under the header "Candidates"
+            # because of a few pranksters at UC Santa Barbara.
+            if idx == 1 and i.b and "Candidates" in i.b.text:
+                matches = re.finditer(
+                    r'(\w+)(?:\sJr\.)?(?:,\s([-\w\s\.]+)|;)',
+                    str(i)
+                )
+            elif idx == 0:
+                # The list may also be stuck between two <p>'s due to bad
+                # employees at UC Santa Barbara, and we need to check.
+                matches = re.finditer(r'(\w+)(?:\s\(([\w\s-]+)\)|;)', str(i))
+            else:
                 break
-            matches = re.finditer(r'(\w+)(?:\s\(([\w\s-]+)\)|;)', str(i))
             for m in matches:
                 if 'and' in m.group():
                     continue
@@ -282,7 +291,8 @@ def find_debaters(soup, debate_type, year, datetime):
                     'lines': [],
                     'party': party
                 }
-            return debaters
+            if len(debaters) > 0:
+                return debaters
         match = re.search(r'(\w+)(?:,\sJr\.)?(?:\s\(([-\w\s\.]+)\)|;)', str(i))
         name, party = None, None
         if match:
@@ -327,6 +337,8 @@ def line_speaker(line, debate_type, year):
             match = re.search(r'(?i)(\w+):', text)
             if match is None:
                 match = re.search(r'<b>([\w]+)<\/b>:', str(line))
+                if match is None:
+                    match = re.search(r'<b>([\w]+)<\/b><b>:', str(line))
         else:
             if match is None:
                 title = TITLE_C
@@ -398,6 +410,6 @@ def print_transcript(t):
     print
 
 if __name__ == '__main__':
-    # collect_transcripts()
-    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=75140'
-    create_transcript(url, 2008)
+    collect_transcripts()
+#    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=74349'
+#    create_transcript(url, 2008)
