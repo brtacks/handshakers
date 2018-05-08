@@ -183,6 +183,7 @@ def collect_transcripts():
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
+
 # create_transcript creates a transcript dictionary.
 def create_transcript(url, year):
     soup = get_soup(url)
@@ -190,7 +191,8 @@ def create_transcript(url, year):
     transcript['debaters'] = get_debater_lines(
         soup,
         transcript['debate_type'],
-        year,
+        year, # Year of election
+        transcript['date'], # Date of debate
     )
     if len(transcript['debaters']) == 0:
         print "No participants found:", url
@@ -199,13 +201,15 @@ def create_transcript(url, year):
         if len(v['lines']) == 0:
             print "A debater has zero lines:", url
             sys.exit(0)
-    # print_transcript(transcript)
+    print_transcript(transcript)
 
 
 # get_debater_lines finds each candidate and every line they spoke.
-def get_debater_lines(soup, debate_type, year):
+# It takes a soup, the debate_type, the year of the election, and the date of
+# the debate.
+def get_debater_lines(soup, debate_type, year, datetime):
     transcript = soup.find('span', attrs={'class': 'displaytext'})
-    debaters = find_debaters(transcript, debate_type, year)
+    debaters = find_debaters(transcript, debate_type, year, datetime)
     lines = transcript.find_all('p')
     debater_lines = {}
     debaters.pop('pattern', None)
@@ -236,7 +240,16 @@ def get_debater_lines(soup, debate_type, year):
 
 # The format of debate transcript varies by year and debate type (presidential
 # or primary).
-def find_debaters(soup, debate_type, year):
+def find_debaters(soup, debate_type, year, datetime):
+    if datetime == date(2007, 6, 3):
+        debaters = ['DODD', 'EDWARDS', 'CLINTON', 'OBAMA', 'RICHARDSON',
+                    'BIDEN', 'KUCINICH']
+        return {
+            x: {
+                'lines': [],
+                'party': 'D',
+            } for x in debaters
+        }
     try:
         debaters = DEBATERS_BY_YEAR[year][debate_type].copy()
         for k, v in debaters.items():
@@ -388,4 +401,6 @@ def print_transcript(t):
     print
 
 if __name__ == '__main__':
-    collect_transcripts()
+    # collect_transcripts()
+    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=75140'
+    create_transcript(url, 2008)
