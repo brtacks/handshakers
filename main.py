@@ -179,7 +179,7 @@ def collect_transcripts():
                 year = int(year_label.text)
             except ValueError:
                 pass
-        if tr.a and year <= 1980:
+        if tr.a:
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
@@ -199,7 +199,6 @@ def create_transcript(url, year):
     for k, v in transcript['debaters'].items():
         if len(v['lines']) == 0:
             raise ValueError("Debater %s has zero lines: %s" % (k, url))
-    print_transcript(transcript)
 
 
 # get_debater_lines finds each candidate and every line they spoke.
@@ -412,7 +411,7 @@ def init_transcript(soup, url):
     date = get_date_from_str(date.text)
     papers_title = soup.find('span', attrs={'class': 'paperstitle'}).text
     debate_type = None
-    if VICE_PRESIDENTIAL in papers_title:
+    if VICE_PRESIDENTIAL in papers_title or "Vice-Presidential" in papers_title:
         debate_type = VICE_PRESIDENTIAL
     elif 'Democratic' in papers_title:
         debate_type = DEMOCRATIC
@@ -458,5 +457,3 @@ def print_transcript(t):
 
 if __name__ == '__main__':
     collect_transcripts()
-    #url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=39296'
-    #create_transcript(url, 1984)
