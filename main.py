@@ -207,6 +207,7 @@ def create_transcript(url, year):
 def get_debater_lines(soup, debate_type, year, datetime):
     transcript = soup.find('span', attrs={'class': 'displaytext'})
     debaters = find_debaters(transcript, debate_type, year, datetime)
+    print debaters
     lines = transcript.find_all('p')
     debater_lines = {}
     debaters.pop('pattern', None)
@@ -442,6 +443,6 @@ def print_transcript(t):
     print
 
 if __name__ == '__main__':
-    collect_transcripts()
-#    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=74349'
-#    create_transcript(url, 2008)
+    #collect_transcripts()
+    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=52115'
+    create_transcript(url, 1996)
