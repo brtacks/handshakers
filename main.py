@@ -239,12 +239,18 @@ def get_debater_lines(soup, debate_type, year, datetime):
 # or primary).
 def find_debaters(soup, debate_type, year, datetime):
     debaters = None
+
+    # In some special cases, participants are not listed at the beginning of the
+    # transcript nor clearly introduced during the debate. In these cases, it is
+    # simpler and more efficient to hardcode the participants.
     if datetime == date(2007, 6, 3):
         debaters = [['DODD', 'EDWARDS', 'CLINTON', 'OBAMA', 'RICHARDSON',
                      'BIDEN', 'KUCINICH'], 'D']
     elif datetime == date(1999, 12, 6):
         debaters = [['BAUER', 'BUSH', 'HATCH', 'MCCAIN', 'KEYES', 'FORBES'],
                     'R']
+    elif datetime == date(1999, 10, 22):
+        debaters = [['BAUER', 'HATCH', 'MCCAIN', 'KEYES', 'FORBES'], 'R']
     if debaters is not None:
         return {
             x: {
