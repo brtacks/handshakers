@@ -179,7 +179,7 @@ def collect_transcripts():
                 year = int(year_label.text)
             except ValueError:
                 pass
-        if tr.a:
+        if tr.a and year <= 2008:
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
@@ -193,11 +193,11 @@ def create_transcript(url, year):
         year,
     )
     if len(transcript['debaters']) == 0:
-        print url
+        print "No participants found:", url
         sys.exit(0)
     for v in transcript['debaters'].values():
         if len(v['lines']) == 0:
-            print url
+            print "A debater has zero lines:", url
             sys.exit(0)
     print_transcript(transcript)
 
@@ -257,7 +257,7 @@ def find_debaters(soup, debate_type, year):
             # The participants list is in non-p tags at the top of the
             # transcript. However, it may be stuck between two <p>'s due to bad
             # employees at UC Santa Barbara, and we need to check.
-            if i > 0:
+            if idx > 0:
                 break
             matches = re.finditer(r'(\w+)(?:\s\(([\w\s-]+)\)|;)', str(i))
             for m in matches:
@@ -306,7 +306,7 @@ def line_speaker(line, debate_type, year):
     pattern = TITLE_PATTERNS[title]
     match = None
 
-    ignored_titles = re.compile(r'(?:Mr|Ms|Mrs|Gov|Sen)\.')
+    ignored_titles = re.compile(r'(?i)(?:The|Mr|Ms|Mrs|Gov|Sen|Rep)\.')
 
     if title == TITLE_A or title == TITLE_P:
         # Speaker titles are in bold and match '(?i)(\w+):'
@@ -315,20 +315,23 @@ def line_speaker(line, debate_type, year):
             match = re.search(r'(?i)(\w+):', text)
             if match is None:
                 match = re.search(r'<b>([\w]+)<\/b>:', str(line))
-    elif title == TITLE_B:
+        else:
+            if match is None:
+                title = TITLE_C
+    if title == TITLE_B:
         # Speaker titles are in italics and match '(?i)(\w+)\.'
         if line.i:
             text = ignored_titles.sub('', line.i.text)
             match = re.search(pattern, text)
-    elif title == TITLE_C:
+    if title == TITLE_C:
         # Speaker titles are at the beginning of the line.
-        text = ignored_titles.sub('', line)
+        text = ignored_titles.sub('', line.text).strip()
         if ':' in line:
             # Case 1 titles match '([A-Z]+):'
             match = re.search(r'([A-Z]+):', text)
         else:
-            # Case 2 titles match '(?i)([\w]+)(?:\.|:)'
-            match = re.search(r'(?i)([\w]+)(?:\.|:)', text)
+            # Case 2 titles match '(?i)^([\w{2,}]+)(?:\.|:)'
+            match = re.search(r'(?i)^([\w]{2,})(?:\.|:)', text)
 
     return match
 
@@ -383,6 +386,6 @@ def print_transcript(t):
     print
 
 if __name__ == '__main__':
-    collect_transcripts()
-    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=97038'
+ #   collect_transcripts()
+    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=76561'
     create_transcript(url, 2012)
