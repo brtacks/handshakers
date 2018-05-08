@@ -178,7 +178,7 @@ def collect_transcripts():
                 year = int(year_label.text)
             except ValueError:
                 pass
-        if tr.a and year <= 2008:
+        if tr.a and year <= 2000:
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
@@ -238,14 +238,19 @@ def get_debater_lines(soup, debate_type, year, datetime):
 # The format of debate transcript varies by year and debate type (presidential
 # or primary).
 def find_debaters(soup, debate_type, year, datetime):
+    debaters = None
     if datetime == date(2007, 6, 3):
-        debaters = ['DODD', 'EDWARDS', 'CLINTON', 'OBAMA', 'RICHARDSON',
-                    'BIDEN', 'KUCINICH']
+        debaters = [['DODD', 'EDWARDS', 'CLINTON', 'OBAMA', 'RICHARDSON',
+                     'BIDEN', 'KUCINICH'], 'D']
+    elif datetime == date(1999, 12, 6):
+        debaters = [['BAUER', 'BUSH', 'HATCH', 'MCCAIN', 'KEYES', 'FORBES'],
+                    'R']
+    if debaters is not None:
         return {
             x: {
                 'lines': [],
-                'party': 'D',
-            } for x in debaters
+                'party': debaters[1]
+            } for x in debaters[0]
         }
     try:
         debaters = DEBATERS_BY_YEAR[year][debate_type]
@@ -302,7 +307,7 @@ def find_debaters(soup, debate_type, year, datetime):
                 }
             if len(debaters) > 0:
                 return debaters
-        match = re.search(r'(\w+)(?:,\sJr\.)?(?:\s\(([-\w\s\.]+)\)|;)', str(i))
+        match = re.search(r'(\w+)(?:,\sJr\.)?(?:\s\(([-\w\s\.,]+)\)|;)', str(i))
         name, party = None, None
         if match:
             name = match.group(1)
@@ -313,7 +318,7 @@ def find_debaters(soup, debate_type, year, datetime):
         elif i.name is None:
             if i.strip() == '':
                 continue
-            name = i.split(' ')[-1]
+            name = i.split(' ')[-1].upper()
             for year in DEBATERS_BY_YEAR.values():
                 for debate in year.values():
                     if name in debate:
@@ -331,7 +336,13 @@ def find_debaters(soup, debate_type, year, datetime):
 # line_speaker finds the speaker's name in a string as a regex match object.
 def line_speaker(line, debate_type, year):
     try:
-        title = DEBATERS_BY_YEAR[year][debate_type]['pattern']
+        title = DEBATERS_BY_YEAR[year][debate_type]
+        if type(title) is list:
+            # If debaters are stored in a list instead of in a dictionary,
+            # they belong in the same party and need no party value.
+            title = TITLE_A
+        else:
+            title = title['pattern']
     except KeyError:
         title = TITLE_P
     pattern = TITLE_PATTERNS[title]
@@ -348,6 +359,12 @@ def line_speaker(line, debate_type, year):
                 match = re.search(r'<b>([\w]+)<\/b>:', str(line))
                 if match is None:
                     match = re.search(r'<b>([\w]+)<\/b><b>:', str(line))
+            else:
+                if match.group(1) == 'CANDIDATE':
+                    match = re.search(
+                        r'(\w+)(?:,\sJr\.)?(?:\s\([-\w\s\.,]+\))',
+                        text
+                    )
         else:
             if match is None:
                 title = TITLE_C
