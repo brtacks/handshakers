@@ -3,12 +3,7 @@ from datetime import date
 
 import requests
 import re
-
-# The general pattern matches participants' names in general debates.
-general_pattern = re.compile(r'(\S+)\s\((D|R)(\S+)?\)')
-
-# The party pattern matches participants' names in party debates.
-party_pattern = re.compile(r'')
+import sys
 
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
           'August', 'September', 'October', 'November', 'December']
@@ -27,14 +22,20 @@ PRESIDENTS_BY_YEAR = {
     1976: 'FORD',
 }
 
+# TITLE's are the types of titles debaters are given in a transcript.
 TITLE_A = 'bold'
 TITLE_B = 'italics'
 TITLE_C = 'regular'
+TITLE_P = 'participants'
 
+# Each title has a certain regex pattern.
 TITLE_PATTERNS = {
     TITLE_A: r'(?i)(\w+):',
     TITLE_B: r'(?i)(\w+)\.',
+    # TITLE_C pattern is left empty as there are two cases, both resolved within
+    # the function in which TITLE_C is used.
     TITLE_C: '',
+    TITLE_P: r'(\S+)\s\((D|R)(\S+)?\)'
 }
 
 DEBATERS_BY_YEAR = {
@@ -67,7 +68,7 @@ DEBATERS_BY_YEAR = {
             'KERRY': 'D',
             'BUSH': 'R',
             'pattern': TITLE_B,
-        }
+        },
         VICE_PRESIDENTIAL: {
             'EDWARDS': 'D',
             'CHENEY': 'R',
