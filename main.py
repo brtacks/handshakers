@@ -386,6 +386,6 @@ def print_transcript(t):
     print
 
 if __name__ == '__main__':
- #   collect_transcripts()
+    collect_transcripts()
     url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=76561'
     create_transcript(url, 2012)
