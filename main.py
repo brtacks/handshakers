@@ -12,12 +12,13 @@ VICE_PRESIDENTIAL = 'Vice Presidential'
 DEMOCRATIC = 'Democratic'
 REPUBLICAN = 'Republican'
 
-# Don't specify party; check for opposites.
+# Some debate transcripts refer to a speaker as "The President." This dictionary
+# resolves those cases.
 PRESIDENTS_BY_YEAR = {
     2012: 'OBAMA',
-    1996: 'BUSH',
+    1996: 'CLINTON',
     1984: 'REAGAN',
-    1980: 'REAGAN',
+    1980: 'CARTER',
     1976: 'FORD',
 }
 
@@ -178,7 +179,7 @@ def collect_transcripts():
                 year = int(year_label.text)
             except ValueError:
                 pass
-        if tr.a and year <= 2000:
+        if tr.a and year <= 1996:
             url = tr.a.attrs['href']
             create_transcript(url, year)
 
@@ -195,9 +196,9 @@ def create_transcript(url, year):
     )
     if len(transcript['debaters']) == 0:
         raise ValueError("No participants found: %s" % url)
-    for v in transcript['debaters'].values():
+    for k, v in transcript['debaters'].items():
         if len(v['lines']) == 0:
-            raise ValueError("Debater %s has zero lines: %s" % (v, url))
+            raise ValueError("Debater %s has zero lines: %s" % (k, url))
     print_transcript(transcript)
 
 
@@ -207,7 +208,6 @@ def create_transcript(url, year):
 def get_debater_lines(soup, debate_type, year, datetime):
     transcript = soup.find('span', attrs={'class': 'displaytext'})
     debaters = find_debaters(transcript, debate_type, year, datetime)
-    print debaters
     lines = transcript.find_all('p')
     debater_lines = {}
     debaters.pop('pattern', None)
