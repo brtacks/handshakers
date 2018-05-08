@@ -4,6 +4,12 @@ _The Other Side_ (to be renamed) analyzes the political psychologies of the Demo
 
 Debate transcripts can be found at [The American Presidency Project](http://www.presidency.ucsb.edu/debates.php).
 
+# Research
+
+- [Liberals and Conservatives Rely on Different Sets of Moral Foundations (Graham, et. al)](https://www-bcf.usc.edu/~jessegra/papers/GrahamHaidtNosek.2009.Moral%20foundations%20of%20liberals%20and%20conservatives.JPSP.pdf)
+- [Political Bias Prediction](https://arxiv.org/pdf/1608.02195.pdf)
+- [Moral Foundations and Heterogeneity in Ideological Preferences](http://www.jstor.org/stable/23481157)
+
 # Methodology
 
 ## Scraping Transcripts
@@ -22,3 +28,4 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 | 1980 | THE PRESIDENT.<br>GOVERNOR REAGAN. | - | - |
 | 1976 | THE PRESIDENT.<br>MR. CARTER. | DOLE:<br>MONDALE: | - |
 | 1960 | MR. NIXON:<br>MR. KENNEDY: | - | - |
+
