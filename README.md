@@ -6,7 +6,7 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 
 # Timeline
 
-- [ ] *Scraping:* cleaning transcripts from the web and storing them in formatted CSV's
+- [x] *Scraping:* cleaning transcripts from the web and storing them in formatted CSV's
 - [ ] *Analysis:* engine to get a targeted word frequency for any transcript
 - [ ] *1<sup>st</sup> Aggregator:* combining word frequencies for each debate to a Democrat and Republican key
 - [ ] *2<sup>nd</sup> Aggregator:* combining debate scores for each year (separate primary & general)
