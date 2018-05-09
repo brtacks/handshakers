@@ -205,8 +205,8 @@ def create_transcript(url, year):
         year, # Year of election
         transcript['date'], # Date of debate
     )
-    for k, v in transcript['debaters'].items():
-        if len(v['lines']) == 0:
+    for k, v in transcript['debate'][0].items():
+        if v['num_lines'] == 0:
             raise ValueError("Debater %s has zero lines: %s" % (k, url))
 
     fname = 'data/%s-%s.txt' % (transcript['debate_type'], transcript['date'])
@@ -214,15 +214,19 @@ def create_transcript(url, year):
 
     with open(fname, 'w') as f:
         debaters = debate[0]
-        f.write('%')
+        f.write('%\n')
         f.write(
             '\n'.join(
                 ['%s\t%s' % (name, v['party']) for name, v in debaters.items()]
             )
         )
-        f.write('%')
+        f.write('\n%\n')
         for line in debate[1:]:
-            f.write(line)
+            f.write(line.encode('utf-8'))
+            f.write('\n')
+
+    print "Created transcript for %s debate on %s." % (transcript['debate'],
+                                                       transcript['date'])
 
 
 # get_debater_lines finds each candidate and every line they spoke.
@@ -233,12 +237,12 @@ def get_debater_lines(soup, debate_type, year, datetime):
     debaters = find_debaters(transcript, debate_type, year, datetime)
     if len(debaters) == 0:
         raise ValueError(
-            "No debaters found for %s debate on %s.".,
+            "No debaters found for %s debate on %s.",
             debate_type,
             str(datetime),
         )
     lines = transcript.find_all('p')
-    transcript = [debaters]
+    debate = [debaters]
     debaters.pop('pattern', None)
     if len(debaters) == 0:
         return debaters
@@ -260,9 +264,10 @@ def get_debater_lines(soup, debate_type, year, datetime):
             else:
                 current_debater = None
         if current_debater:
-            transcript.append("%s: %s", current_debater, text.strip())
+            debate.append("%s: %s" % (current_debater, text.strip()))
+            debate[0][current_debater]['num_lines'] += 1
 
-    return debaters
+    return debate
 
 
 # The format of debate transcript varies by year and debate type (presidential
@@ -320,6 +325,7 @@ def find_debaters(soup, debate_type, year, datetime):
     pattern = TITLE_PATTERNS[TITLE_P]
     debaters = {}
     for idx, i in enumerate(soup.children):
+        unicode_str = i.encode('utf-8')
         if i.name == 'p':
             # The participants list is in non-p tags at the top of the
             # transcript.
@@ -328,12 +334,15 @@ def find_debaters(soup, debate_type, year, datetime):
             if idx == 1 and i.b and "Candidates" in i.b.text:
                 matches = re.finditer(
                     r'(\w+)(?:\sJr\.)?(?:,\s([-\w\s\.]+)|;)',
-                    str(i)
+                    unicode_str,
                 )
             elif idx == 0:
                 # The list may also be stuck between two <p>'s due to bad
                 # employees at UC Santa Barbara, and we need to check.
-                matches = re.finditer(r'(\w+)(?:\s\(([\w\s-]+)\)|;)', str(i))
+                matches = re.finditer(
+                    r'(\w+)(?:\s\(([\w\s-]+)\)|;)',
+                    unicode_str,
+                )
             else:
                 break
             for m in matches:
@@ -367,7 +376,7 @@ def find_debaters(soup, debate_type, year, datetime):
                     if name in debate:
                         party = debate[name]
             if party is None:
-                print "Could not find party for title " +  str(i)
+                print "Could not find party for title " + unicode_str
         if name is not None and party is not None:
             debaters[name.upper()] = {
                 'num_lines': 0,
@@ -459,6 +468,7 @@ def init_transcript(soup, url):
         'debate_type': debate_type,
     }
 
+
 def get_date_from_str(str):
     date_components = re.findall(r"[\w']+", str)
     if len(date_components) != 3:
@@ -474,18 +484,17 @@ def get_date_from_str(str):
         int(date_components[1]), # day
     )
 
+
 def get_soup(url):
     r = requests.get(url)
     return bs4(r.content, 'lxml')
 
+
+# TODO: Adjust print_transcript for the new transcript structure.
 def print_transcript(t):
     print "== %s Debate, %s =====" % (t['debate_type'], str(t['date']))
-    print "PARTICIPANTS:"
-    for name, v in t['debaters'].items():
-        print "  %s (%s): %d lines spoken" % (name, v['party'], len(v['lines']))
-    print
+    print "TODO: Adjust print_transcript for the new transcript structure."
+
 
 if __name__ == '__main__':
-    # collect_transcripts()
-    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=119039'
-    create_transcript(url, 2016)
+    collect_transcripts()
