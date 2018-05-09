@@ -4,15 +4,16 @@ _The Other Side_ (to be renamed) analyzes the political psychologies of the Demo
 
 Debate transcripts can be found at [The American Presidency Project](http://www.presidency.ucsb.edu/debates.php).
 
-# Research
+# Literature
 
-- [Measuring Moral Culture](https://kenan.ethics.duke.edu/wp-content/uploads/2014/03/Vaisey-and-Miles-Measuring-Moral-Culture-12-16-13.pdf) (left off at page 15)
+## On Measuring Text
+- [Measuring Moral Culture](https://kenan.ethics.duke.edu/wp-content/uploads/2014/03/Vaisey-and-Miles-Measuring-Moral-Culture-12-16-13.pdf)
+- [Liberals and Conservatives Rely on Different Sets of Moral Foundations](http://www-bcf.usc.edu/~jessegra/papers/GrahamHaidtNosek.2009.Moral%20foundations%20of%20liberals%20and%20conservatives.JPSP.pdf) Study 4, page 1038-1040
+- [Measuring Moral Rhetoric in Text](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) (1-13)
 
-- [Liberals and Conservatives Rely on Different Sets of Moral Foundations (Graham, et. al)](https://www-bcf.usc.edu/~jessegra/papers/GrahamHaidtNosek.2009.Moral%20foundations%20of%20liberals%20and%20conservatives.JPSP.pdf)
+## On Ideology and Sentiment
 - [Moral Foundations and Heterogeneity in Ideological Preferences](http://www.jstor.org/stable/23481157)
 - [Morality Between the Lines: Detecting Moral Sentiment In Text](http://morteza-dehghani.net/wp-content/uploads/morality-lines-detecting.pdf)
-
-- [Moral Foundations LIWC Dictionary](http://www.moralfoundations.org/sites/default/files/files/downloads/moral%20foundations%20dictionary.dic)
 
 # Methodology
 
@@ -33,3 +34,5 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 | 1976 | THE PRESIDENT.<br>MR. CARTER. | DOLE:<br>MONDALE: | - |
 | 1960 | MR. NIXON:<br>MR. KENNEDY: | - | - |
 
+# Data
+- [Moral Foundations LIWC Dictionary](http://www.moralfoundations.org/sites/default/files/files/downloads/moral%20foundations%20dictionary.dic)
