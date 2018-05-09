@@ -225,8 +225,10 @@ def create_transcript(url, year):
             f.write(line.encode('utf-8'))
             f.write('\n')
 
-    print "Created transcript for %s debate on %s." % (transcript['debate'],
-                                                       transcript['date'])
+    print "Created transcript for %s debate on %s." % (
+        transcript['debate_type'],
+        transcript['date']
+    )
 
 
 # get_debater_lines finds each candidate and every line they spoke.
