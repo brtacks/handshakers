@@ -184,21 +184,45 @@ def collect_transcripts():
             create_transcript(url, year)
 
 
-# create_transcript creates a transcript dictionary.
+# create_transcript writes a transcript into a formatted text file:
+"""
+%
+OBAMA\tD
+ROMNEY\tR
+%
+OBAMA: ...
+...
+ROMNEY: ...
+
+...
+"""
 def create_transcript(url, year):
     soup = get_soup(url)
     transcript = init_transcript(soup, url)
-    transcript['debaters'] = get_debater_lines(
+    transcript['debate'] = get_debater_lines(
         soup,
         transcript['debate_type'],
         year, # Year of election
         transcript['date'], # Date of debate
     )
-    if len(transcript['debaters']) == 0:
-        raise ValueError("No participants found: %s" % url)
     for k, v in transcript['debaters'].items():
         if len(v['lines']) == 0:
             raise ValueError("Debater %s has zero lines: %s" % (k, url))
+
+    fname = 'data/%s-%s.txt' % (transcript['debate_type'], transcript['date'])
+    debate = transcript['debate']
+
+    with open(fname, 'w') as f:
+        debaters = debate[0]
+        f.write('%')
+        f.write(
+            '\n'.join(
+                ['%s\t%s' % (name, v['party']) for name, v in debaters.items()]
+            )
+        )
+        f.write('%')
+        for line in debate[1:]:
+            f.write(line)
 
 
 # get_debater_lines finds each candidate and every line they spoke.
@@ -207,8 +231,14 @@ def create_transcript(url, year):
 def get_debater_lines(soup, debate_type, year, datetime):
     transcript = soup.find('span', attrs={'class': 'displaytext'})
     debaters = find_debaters(transcript, debate_type, year, datetime)
+    if len(debaters) == 0:
+        raise ValueError(
+            "No debaters found for %s debate on %s.".,
+            debate_type,
+            str(datetime),
+        )
     lines = transcript.find_all('p')
-    debater_lines = {}
+    transcript = [debaters]
     debaters.pop('pattern', None)
     if len(debaters) == 0:
         return debaters
@@ -230,7 +260,7 @@ def get_debater_lines(soup, debate_type, year, datetime):
             else:
                 current_debater = None
         if current_debater:
-            debaters[current_debater]['lines'].append(text.strip())
+            transcript.append("%s: %s", current_debater, text.strip())
 
     return debaters
 
@@ -254,7 +284,7 @@ def find_debaters(soup, debate_type, year, datetime):
     if debaters is not None:
         return {
             x: {
-                'lines': [],
+                'num_lines': 0,
                 'party': debaters[1]
             } for x in debaters[0]
         }
@@ -271,14 +301,14 @@ def find_debaters(soup, debate_type, year, datetime):
                 }
             for k, v in debaters.items():
                 debaters[k] = {
-                    'lines': [],
+                    'num_lines': 0,
                     'party': v,
                 }
             return debaters
         elif type(debaters) is list:
             return {
                 x: {
-                    'lines': [],
+                    'num_lines': 0,
                     'party': 'D',
                 } for x in debaters
             }
@@ -315,7 +345,7 @@ def find_debaters(soup, debate_type, year, datetime):
                 else:
                     party = debate_type[0]
                 debaters[name.upper()] = {
-                    'lines': [],
+                    'num_lines': 0,
                     'party': party
                 }
             if len(debaters) > 0:
@@ -340,7 +370,7 @@ def find_debaters(soup, debate_type, year, datetime):
                 print "Could not find party for title " +  str(i)
         if name is not None and party is not None:
             debaters[name.upper()] = {
-                'lines': [],
+                'num_lines': 0,
                 'party': party
             }
     return debaters
@@ -456,4 +486,6 @@ def print_transcript(t):
     print
 
 if __name__ == '__main__':
-    collect_transcripts()
+    # collect_transcripts()
+    url = 'http://www.presidency.ucsb.edu/ws/index.php?pid=119039'
+    create_transcript(url, 2016)
