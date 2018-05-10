@@ -42,7 +42,29 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 | 1960 | MR. NIXON:<br>MR. KENNEDY: | - | - |
 
 # Data
+
+## Moral Foundations Dictionary
 - [Moral Foundations LIWC Dictionary](http://www.moralfoundations.org/sites/default/files/files/downloads/moral%20foundations%20dictionary.dic): a list of 324 of base foundation words
+
+The header section of the file is contained within two percent signs, each on their own line. The lines in between them each contain the hash index of the foundation followed by a tab and the foundation name.
+```
+%
+01    FOUNDATION1_VIRTUE
+02    FOUNDATION1_VICE
+03    FOUNDATION1_VIRTUE
+...
+%
+```
+
+In the lines underneath, one keyword and its foundation index lie on each line. Some keywords may refer to multiple foundations.
+```
+...
+%
+keyword1    01
+keyword2    01 02
+keyword3    02
+...
+```
 
 # Discussion
 - For future research, [_Measuring Moral Rhetoric In Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) made a text analysis method that could focus on a specific topic instead of a whole body of text.
