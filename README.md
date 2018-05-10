@@ -14,13 +14,13 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 # Literature
 
 ## On Measuring Text
-- [Measuring Moral Culture](https://kenan.ethics.duke.edu/wp-content/uploads/2014/03/Vaisey-and-Miles-Measuring-Moral-Culture-12-16-13.pdf)
-- [Liberals and Conservatives Rely on Different Sets of Moral Foundations](http://www-bcf.usc.edu/~jessegra/papers/GrahamHaidtNosek.2009.Moral%20foundations%20of%20liberals%20and%20conservatives.JPSP.pdf) Study 4, page 1038-1040
-- [Measuring Moral Rhetoric in Text](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) (1-13)
+- [_Measuring Moral Culture_](https://kenan.ethics.duke.edu/wp-content/uploads/2014/03/Vaisey-and-Miles-Measuring-Moral-Culture-12-16-13.pdf)
+- [_Liberals and Conservatives Rely on Different Sets of Moral Foundations_](http://www-bcf.usc.edu/~jessegra/papers/GrahamHaidtNosek.2009.Moral%20foundations%20of%20liberals%20and%20conservatives.JPSP.pdf) Study 4, page 1038-1040
+- [_Measuring Moral Rhetoric in Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) (1-13)
 
 ## On Ideology and Sentiment
-- [Moral Foundations and Heterogeneity in Ideological Preferences](http://www.jstor.org/stable/23481157)
-- [Morality Between the Lines: Detecting Moral Sentiment In Text](http://morteza-dehghani.net/wp-content/uploads/morality-lines-detecting.pdf)
+- [_Moral Foundations and Heterogeneity in Ideological Preferences_](http://www.jstor.org/stable/23481157)
+- [_Morality Between the Lines: Detecting Moral Sentiment In Text_](http://morteza-dehghani.net/wp-content/uploads/morality-lines-detecting.pdf)
 
 # Methodology
 
@@ -42,7 +42,29 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 | 1960 | MR. NIXON:<br>MR. KENNEDY: | - | - |
 
 # Data
+
+## Moral Foundations Dictionary
 - [Moral Foundations LIWC Dictionary](http://www.moralfoundations.org/sites/default/files/files/downloads/moral%20foundations%20dictionary.dic): a list of 324 of base foundation words
+
+The header section of the file is contained within two percent signs, each on their own line. The lines in between them each contain the hash index of the foundation followed by a tab and the foundation name.
+```
+%
+01    FOUNDATION1_VIRTUE
+02    FOUNDATION1_VICE
+03    FOUNDATION1_VIRTUE
+...
+%
+```
+
+In the lines underneath, one keyword and its foundation index lie on each line. Some keywords may refer to multiple foundations.
+```
+...
+%
+keyword1    01
+keyword2    01 02
+keyword3    02
+...
+```
 
 # Discussion
 - For future research, [_Measuring Moral Rhetoric In Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) made a text analysis method that could focus on a specific topic instead of a whole body of text.
