@@ -1,4 +1,6 @@
 import re
+import pandas as pd
+import numpy as np
 
 MF_DICT_FNAME = 'data/mf_dict.txt'
 
@@ -44,47 +46,86 @@ def analyze_corpus(corpus):
     lines = filter(None, corpus.split('\n')[1:])
     divider = lines.index('%')
     header, body = lines[:divider], lines[divider+1:]
-    democrats, republicans = [], []
+    dems, reps = [], []
     for line in header:
         line = line.split('\t')
         if line[1] == 'R':
-            republicans.append(line[0])
+            reps.append(line[0])
         elif line[1] == 'D':
-            democrats.append(line[0])
+            dems.append(line[0])
 
-    democratic_corpus = ""
-    republican_corpus = ""
+    dem_corpus = ""
+    rep_corpus = ""
     for line in body:
-        is_democratic = any([x in line for x in democrats])
-        is_republican = any([x in line for x in republicans])
+        is_dem = any([x in line for x in dems])
+        is_rep = any([x in line for x in reps])
         line = line[line.find(':')+1:].strip()
-        if is_democratic:
-            democratic_corpus += line
-        elif is_republican:
-            republican_corpus += line
+        if is_dem:
+            dem_corpus += line
+        elif is_rep:
+            rep_corpus += line
 
-    democratic_words = find_instances(democratic_corpus)
-    republican_words = find_instances(republican_corpus)
-    for w in republican_words:
-        if len(w['instances']) == 0:
-            continue
-        print "== %s =====" % w['word']
-        for i in w['instances']:
-            print "- " + i
+    return find_instances(dem_corpus.decode('utf-8')), find_instances(rep_corpus.decode('utf-8'))
 
+
+def to_excel(dem_words, rep_words):
+    writer = pd.ExcelWriter('output.xlsx', engine='xlsxwriter')
+    pd.DataFrame(
+        spread_words(dem_words),
+        columns=['word', 'foundations', 'instance', 'perspective']
+    ).set_index('word').to_excel(writer, 'Democrats')
+    pd.DataFrame(
+        spread_words(rep_words),
+        columns=['word', 'foundations', 'instance', 'perspective']
+    ).set_index('word').to_excel(writer, 'Republicans')
+
+    workbook = writer.book
+    text_format = workbook.add_format({'text_wrap': True})
+    align = workbook.add_format({'valign': 'bottom'})
+    for sheet in writer.sheets.values():
+        sheet.set_column('A:A', None, align)
+        sheet.set_column('B:B', 12.5, text_format)
+        sheet.set_column('C:C', 67, text_format)
+    writer.save()
+
+
+# find_instances finds all instances of each MFD word in a corpus.
 def find_instances(corpus):
-    words = WORDS[:]
+    words = []
     lo_corp = corpus.lower()
-    for w in words:
+    corp_len = len(corpus)
+    for w in WORDS:
         if ' ' + w['word'].strip('*') in lo_corp:
-            w['instances'] = w['pattern'].findall(corpus)
-            print w['word'], len(w['instances'])
+            instances = w['pattern'].findall(corpus)
+            if len(instances) > 0:
+                words.append({
+                    'word': w['word'],
+                    'instances': instances,
+                    'foundations': w['foundations'],
+                })
     return words
+
+
+# spread_words creates a pandas-compatible data structure with each instance of
+# each word as its own row.
+def spread_words(words):
+    data = []
+    for w in words:
+        for instance in w['instances']:
+            data.append({
+                'word': w['word'],
+                'instance': instance,
+                'foundations': ', '.join(
+                    [FOUNDATIONS[f] for f in w['foundations']]
+                ),
+            })
+    return data
 
 
 if __name__ == '__main__':
     init_mf_dict()
-    fname = 'data/Presidential-2012-10-03.txt'
+    fname = 'data/Presidential-2012-10-16.txt'
     with open(fname) as f:
         s = f.read()
-        analyze_corpus(s)
+        dem_words, rep_words = analyze_corpus(s)
+        to_excel(dem_words, rep_words)
