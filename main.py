@@ -72,11 +72,11 @@ def to_excel(dem_words, rep_words):
     writer = pd.ExcelWriter('output.xlsx', engine='xlsxwriter')
     pd.DataFrame(
         spread_words(dem_words),
-        columns=['word', 'foundations', 'instance', 'perspective']
+        columns=['word', 'foundations', 'instance', 'score']
     ).set_index('word').to_excel(writer, 'Democrats')
     pd.DataFrame(
         spread_words(rep_words),
-        columns=['word', 'foundations', 'instance', 'perspective']
+        columns=['word', 'foundations', 'instance', 'score']
     ).set_index('word').to_excel(writer, 'Republicans')
 
     workbook = writer.book
