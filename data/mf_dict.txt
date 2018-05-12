@@ -9,7 +9,6 @@
 08	AuthorityVice
 09	PurityVirtue
 10	PurityVice
-11	MoralityGeneral
 %
 safe*	01
 peace*	01
@@ -87,7 +86,7 @@ homologous	03
 unprejudice*	03
 reasonable	03
 constant	03
-honest*	03 11
+honest*	03
 unfair*	04
 unequal*	04
 bias*	04
@@ -160,8 +159,8 @@ obey*	07
 obedien*	07
 duty	07
 law	07
-lawful*	07 11
-legal*	07 11
+lawful*	07
+legal*	07
 duti*	07
 honor*	07
 respect	07
@@ -226,8 +225,8 @@ denounce	08
 remonstrate	08
 riot*	08
 obstruct	08
-piety	09 11
-pious	09 11
+piety	09
+pious	09
 purity	09
 pure*	09
 clean*	09
@@ -237,7 +236,7 @@ chast*	09
 holy	09
 holiness	09
 saint*	09
-wholesome*	09 11
+wholesome*	09
 celiba*	09
 abstention	09
 virgin	09
@@ -245,17 +244,17 @@ virgins	09
 virginity	09
 virginal	09
 austerity	09
-integrity	09 11
+integrity	09
 modesty	09
 abstinen*	09
 abstemiousness	09
-upright	09 11
+upright	09
 limpid	09
 unadulterated	09
 maiden	09
 virtuous	09
 refined	09
-decen*	09 11
+decen*	09
 immaculate	09
 innocent	09
 pristine	09
@@ -265,7 +264,7 @@ deprav*	10
 disease*	10
 unclean*	10
 contagio*	10
-indecen*	10 11
+indecen*	10
 sin	10
 sinful*	10
 sinner*	10
@@ -301,37 +300,8 @@ stain*	10
 tarnish*	10
 debase*	10
 desecrat*	10
-wicked*	10 11
+wicked*	10
 blemish	10
 exploitat*	10
 pervert	10
-wretched*	10 11
-righteous*	11
-moral*	11
-ethic*	11
-value*	11
-upstanding	11
-good	11
-goodness	11
-principle*	11
-blameless	11
-exemplary	11
-lesson	11
-canon	11
-doctrine	11
-noble	11
-worth*	11
-ideal*	11
-praiseworthy	11
-commendable	11
-character	11
-proper	11
-laudable	11
-correct	11
-wrong*	11
-evil	11
-immoral*	11
-bad	11
-offend*	11
-offensive*	11
-transgress*	11
+wretched*	10
