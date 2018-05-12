@@ -2,7 +2,7 @@ import re
 import pandas as pd
 import numpy as np
 
-MF_DICT_FNAME = 'data/mf_dict.txt'
+MF_DICT_FNAME = 'data/raw/mf_dict.txt'
 
 # FOUNDATIONS serves as a hash map for 10 moral cores (virtue and vice for each
 # moral foundation). The moral foundations dictionary starts its indexing at 1.
@@ -69,7 +69,7 @@ def analyze_corpus(corpus):
 
 
 def to_excel(dem_words, rep_words):
-    writer = pd.ExcelWriter('output.xlsx', engine='xlsxwriter')
+    writer = pd.ExcelWriter('data/excel/output.xlsx', engine='xlsxwriter')
     pd.DataFrame(
         spread_words(dem_words),
         columns=['word', 'foundations', 'instance', 'score']
@@ -124,7 +124,7 @@ def spread_words(words):
 
 if __name__ == '__main__':
     init_mf_dict()
-    fname = 'data/Presidential-2012-10-16.txt'
+    fname = 'data/raw/Presidential-2012-10-16.txt'
     with open(fname) as f:
         s = f.read()
         dem_words, rep_words = analyze_corpus(s)
