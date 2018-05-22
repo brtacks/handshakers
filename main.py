@@ -128,46 +128,35 @@ def find_sig_diffs(dem_words, rep_words):
     for w in WORDS:
         stem = w['word']
         d = None
-        instances = []
         if stem in dem_stems and stem in rep_stems:
             d = math.fabs(
                 dem_stems[stem]['frequency'] - rep_stems[stem]['frequency']
             )
         elif stem in dem_stems:
             d = dem_stems[stem]['frequency']
-            instances = dem_stems[stem]['instances']
         elif stem in rep_stems:
             d = rep_stems[stem]['frequency']
-            instances = rep_stems[stem]['instances']
         else:
             continue
-        diffs[stem] = (
-            d,
-            dem_stems.get(stem, {}).get('instances', []) +
-            rep_stems.get(stem, {}).get('instances', [])
-        )
-    diff_values = [diffs[stem][0] for stem in diffs]
+        diffs[stem] = d
+    diff_values = diffs.values()
     xbar = np.mean(diff_values)
     s = np.std(diff_values)
 
     # Converting all diffs to z-scores
     z_scores = {
-        stem: ((diffs[stem][0]-xbar) / s, diffs[stem][1])
+        stem: (diffs[stem]-xbar) / s
         for stem in diffs
     }
 
     # Converting all z-scores to p-values, but we only want differences that are
     # significantly large rather than small.
     p_values_ary = [
-        (stem, 1.0 - norm.cdf(z_scores[stem][0]), diffs[stem][1])
+        (stem, 1.0 - norm.cdf(z_scores[stem]))
         for stem in z_scores if z_scores[stem] > 0
     ]
-    p_values = [x[1] for x in p_values_ary]
-
-    plt.scatter([i for i in range(len(p_values))], p_values, s=[len(p_values_ary[i][2]) ** 2 for i in range(len(p_values))])
-    for i in range(len(p_values)):
-        plt.annotate(xy=(i, p_values[i]), s=p_values_ary[i][0])
-    plt.show()
+    p_values_ary = [(stem, p) for stem, p in p_values_ary if p < 0.1]
+    print p_values_ary
 
 
 # spread_words reduces a word list into  a pandas-compatible data structure
