@@ -123,20 +123,38 @@ def find_sig_diffs(dem_words, rep_words):
     print "Finding sig diffs..."
     dem_stems = {x['word']: x for x in dem_words}
     rep_stems = {x['word']: x for x in rep_words}
-    diffs = []
+    diffs = {}
     for w in WORDS:
         stem = w['word']
+        d = None
         if stem in dem_stems and stem in rep_stems:
-            diffs.append(dem_stems[stem]['frequency'] - rep_stems[stem]['frequency'])
+            d = dem_stems[stem]['frequency'] - rep_stems[stem]['frequency']
         elif stem in dem_stems:
-            diffs.append(dem_stems[stem]['frequency'])
+            d = dem_stems[stem]['frequency']
         elif stem in rep_stems:
-            diffs.append(rep_stems[stem]['frequency'])
-    xbar = np.mean(diffs)
-    s = np.std(diffs) ** 2
-    z_scores = [(x-xbar)*1.0 / s for x in diffs]
-    p_values = [1 - norm.cdf(z) for z in z_scores]
-    _, _, _ = plt.hist(p_values)
+            d = rep_stems[stem]['frequency']
+        else:
+            continue
+        diffs[stem] = d
+    diff_values = diffs.values()
+    print any([type(x) != type(1.0) for x in diff_values])
+    xbar = np.mean(diff_values)
+    s = np.std(diff_values)
+
+    # Converting all diffs to z-scores
+    z_scores = {stem: (diffs[stem]-xbar) / s for stem in diffs}
+
+    # Converting all z-scores to p-values, but we only want differences that are
+    # significantly large rather than small.
+    p_values_ary = [
+        (stem, 1.0 - norm.cdf(z_scores[stem]))
+        for stem in z_scores if z_scores[stem] > 0
+    ]
+    p_values = [x[1] for x in p_values_ary]
+
+    plt.plot([i for i in range(len(p_values))], p_values, 'go')
+    for i in range(len(p_values)):
+        plt.annotate(xy=(i, p_values[i]), s=p_values_ary[i][0])
     plt.show()
 
 

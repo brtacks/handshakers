@@ -22,25 +22,6 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 - [_Moral Foundations and Heterogeneity in Ideological Preferences_](http://www.jstor.org/stable/23481157)
 - [_Morality Between the Lines: Detecting Moral Sentiment In Text_](http://morteza-dehghani.net/wp-content/uploads/morality-lines-detecting.pdf)
 
-# Methodology
-
-## Scraping Transcripts
-
-| - | Presidential | Vice Presidential | Primary |
-| --- | --- | --- | --- |
-| 2016 | participants | participants | participants |
-| 2012 | _The President.<br>...Romney._ | __...BIDEN:<br>...RYAN:__ | participants |
-| 2008 | __OBAMA:__<br>`(?i)`__MCCAIN:__ | __BIDEN:<br>PALIN:__ | participants |
-| 2004 | _...Bush.<br/>Kerry._ | CHENEY:<br>EDWARDS: | __DEAN:<br>LIEBERMAN:__<br>... |
-| 2000 | BUSH:<br>GORE: | CHENEY:<br>LIEBERMAN: | participants |
-| 1996 | _The President.<br>...Dole._ | KEMP:<br>GORE: | - |
-| 1992 | Governor Clinton.<br>President Bush. | GORE:<br>...QUAYLE: | - |
-| 1988 | DUKAKIS:<br>BUSH: | QUAYLE:<br>BENTSEN: | - |
-| 1984 | The President.<br>Mr. Mondale. | FERRARO:<br>BUSH: | - |
-| 1980 | THE PRESIDENT.<br>GOVERNOR REAGAN. | - | - |
-| 1976 | THE PRESIDENT.<br>MR. CARTER. | DOLE:<br>MONDALE: | - |
-| 1960 | MR. NIXON:<br>MR. KENNEDY: | - | - |
-
 # Data
 
 ## Moral Foundations Dictionary
@@ -65,6 +46,28 @@ keyword2    01 02
 keyword3    02
 ...
 ```
+
+# Methodology
+
+## Scraping Transcripts
+
+| - | Presidential | Vice Presidential | Primary |
+| --- | --- | --- | --- |
+| 2016 | participants | participants | participants |
+| 2012 | _The President.<br>...Romney._ | __...BIDEN:<br>...RYAN:__ | participants |
+| 2008 | __OBAMA:__<br>`(?i)`__MCCAIN:__ | __BIDEN:<br>PALIN:__ | participants |
+| 2004 | _...Bush.<br/>Kerry._ | CHENEY:<br>EDWARDS: | __DEAN:<br>LIEBERMAN:__<br>... |
+| 2000 | BUSH:<br>GORE: | CHENEY:<br>LIEBERMAN: | participants |
+| 1996 | _The President.<br>...Dole._ | KEMP:<br>GORE: | - |
+| 1992 | Governor Clinton.<br>President Bush. | GORE:<br>...QUAYLE: | - |
+| 1988 | DUKAKIS:<br>BUSH: | QUAYLE:<br>BENTSEN: | - |
+| 1984 | The President.<br>Mr. Mondale. | FERRARO:<br>BUSH: | - |
+| 1980 | THE PRESIDENT.<br>GOVERNOR REAGAN. | - | - |
+| 1976 | THE PRESIDENT.<br>MR. CARTER. | DOLE:<br>MONDALE: | - |
+| 1960 | MR. NIXON:<br>MR. KENNEDY: | - | - |
+
+## Finding Significant Words
+<img src=""
 
 # Discussion
 - For future research, [_Measuring Moral Rhetoric In Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) made a text analysis method that could focus on a specific topic instead of a whole body of text.
