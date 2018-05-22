@@ -17,8 +17,8 @@ FOUNDATIONS = ['']
 
 WORDS = []
 
-# load_mf_dict loads the moral foundations dictionary. It is available at:
-# http://www.moralfoundations.org/sites/default/files/files/downloads/moral%20foundations%20dictionary.dic
+# load_mf_dict loads the moral foundations dictionary. It can be found at
+# https://github.com/brass-tacks/the-other-side.
 def init_mf_dict():
     with open(MF_DICT_FNAME) as mf:
         lines = filter(None, mf.read().split('\n')[1:])
