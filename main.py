@@ -52,10 +52,14 @@ def get_pattern(word):
 # generate_context converts a debate transcript into an Excel spreadsheet for
 # qualitative context scoring.
 def generate_contexts():
-    fname = 'Presidential-2012-10-16.txt'
     writer = pd.ExcelWriter('data/writer.xlsx', engine='xlsxwriter')
 
-    for fname in os.listdir('data/raw/'):
+    files = sorted(
+        [f for f in os.listdir('data/raw/') if f.find('Presidential') == 0]
+    )
+    for fname in files:
+        if fname.find('Presidential') != 0:
+            continue
         with open('data/raw/' + fname) as f:
             s = f.read()
             print "== Generating context for %s =====" % fname
