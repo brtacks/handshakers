@@ -1,6 +1,7 @@
 from scipy.stats import norm
 
 import re
+import os
 import math
 import pandas as pd
 import numpy as np
@@ -48,6 +49,36 @@ def get_pattern(word):
     )
 
 
+# generate_context converts a debate transcript into an Excel spreadsheet for
+# qualitative context scoring.
+def generate_contexts():
+    fname = 'Presidential-2012-10-16.txt'
+    writer = pd.ExcelWriter('data/writer.xlsx', engine='xlsxwriter')
+
+    for fname in os.listdir('data/raw/'):
+        with open('data/raw/' + fname) as f:
+            s = f.read()
+            print "== Generating context for %s =====" % fname
+            dem_words, rep_words = construct_corpus(s)
+            print "  - Corpus constructed."
+            dem_instances, rep_instances = find_sig_diffs(dem_words, rep_words)
+            print "  - Diffs generated."
+            write_to_excel(
+                fname[fname.find('-') + 1:fname.rfind('.')],
+                dem_instances,
+                rep_instances,
+                writer,
+            )
+        print "  > Done.\n"
+
+    workbook = writer.book
+    text_format = workbook.add_format({'text_wrap': True})
+    for sheet in writer.sheets.values():
+        sheet.set_column('B:B', 12.5, text_format)
+        sheet.set_column('C:C', 67, text_format)
+
+    writer.save()
+
 # construct_corpus constructs a corpus consisting of words from the Democratic
 # and Republican candidates in a body of text.
 def construct_corpus(text):
@@ -78,26 +109,17 @@ def construct_corpus(text):
     return find_instances(dem_corpus), find_instances(rep_corpus)
 
 
-# to_excel converts a corpus of Democratic and Republican words into an Excel
-# spreadsheet formatted for perspective analysis.
-def to_excel(dem_words, rep_words):
-    writer = pd.ExcelWriter('data/excel/output.xlsx', engine='xlsxwriter')
+# write_to_excel converts a corpus of Democratic and Republican words into an
+# Excel spreadsheet formatted for perspective analysis.
+def write_to_excel(fname, dem_words, rep_words, writer):
     pd.DataFrame(
         spread_words(dem_words),
         columns=['word', 'foundations', 'instance', 'score']
-    ).set_index('word').to_excel(writer, 'Democrats')
+    ).set_index('word').to_excel(writer, fname + ' (D)')
     pd.DataFrame(
         spread_words(rep_words),
         columns=['word', 'foundations', 'instance', 'score']
-    ).set_index('word').to_excel(writer, 'Republicans')
-
-    workbook = writer.book
-    text_format = workbook.add_format({'text_wrap': True})
-    for sheet in writer.sheets.values():
-        sheet.set_column('B:B', 12.5, text_format)
-        sheet.set_column('C:C', 67, text_format)
-
-    writer.save()
+    ).set_index('word').to_excel(writer, fname + ' (R)')
 
 
 # find_instances finds all instances of each MFD word in a corpus.
@@ -121,7 +143,6 @@ def find_instances(corpus):
 # find_sig_diffs finds the words in a corpus's two word lists that significantly
 # differ in frequency.
 def find_sig_diffs(dem_words, rep_words):
-    print "Finding sig diffs..."
     dem_stems = {x['word']: x for x in dem_words}
     rep_stems = {x['word']: x for x in rep_words}
     diffs = {}
@@ -155,8 +176,19 @@ def find_sig_diffs(dem_words, rep_words):
         (stem, 1.0 - norm.cdf(z_scores[stem]))
         for stem in z_scores if z_scores[stem] > 0
     ]
-    p_values_ary = [(stem, p) for stem, p in p_values_ary if p < 0.1]
-    print p_values_ary
+    sig_stems = [stem for stem, p in p_values_ary if p < 0.1]
+
+    dem_instances = []
+    rep_instances = []
+    for w in WORDS:
+        word = w['word']
+        if word in sig_stems:
+            if word in dem_stems:
+                dem_instances.append(dem_stems[word])
+            if word in rep_stems:
+                rep_instances.append(rep_stems[word])
+
+    return dem_instances, rep_instances
 
 
 # spread_words reduces a word list into  a pandas-compatible data structure
@@ -177,16 +209,4 @@ def spread_words(words):
 
 if __name__ == '__main__':
     init_mf_dict()
-    """
-    fname = 'data/raw/Presidential-2012-10-16.txt'
-    with open(fname) as f:
-        s = f.read()
-        dem_words, rep_words = construct_corpus(s)
-        w = open('cac.he', 'w')
-        w.write(str(dem_words))
-        w.write('%')
-        w.write(str(rep_words))
-    """
-    with open('cac.he') as f:
-        [dem_words, rep_words] = [eval(x) for x in f.read().split('%')]
-        find_sig_diffs(dem_words, rep_words)
+    generate_contexts()
