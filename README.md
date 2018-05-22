@@ -67,7 +67,7 @@ keyword3    02
 | 1960 | MR. NIXON:<br>MR. KENNEDY: | - | - |
 
 ## Finding Significant Words
-<img src=""
+<img src="./img/sig_diffs.png"/>
 
 # Discussion
 - For future research, [_Measuring Moral Rhetoric In Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) made a text analysis method that could focus on a specific topic instead of a whole body of text.
