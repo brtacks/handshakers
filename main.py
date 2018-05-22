@@ -1,3 +1,5 @@
+from scipy.stats import norm
+
 import re
 import pandas as pd
 import numpy as np
@@ -118,6 +120,7 @@ def find_instances(corpus):
 # find_sig_diffs finds the words in a corpus's two word lists that significantly
 # differ in frequency.
 def find_sig_diffs(dem_words, rep_words):
+    print "Finding sig diffs..."
     dem_stems = {x['word']: x for x in dem_words}
     rep_stems = {x['word']: x for x in rep_words}
     diffs = []
@@ -130,9 +133,10 @@ def find_sig_diffs(dem_words, rep_words):
         elif stem in rep_stems:
             diffs.append(rep_stems[stem]['frequency'])
     xbar = np.mean(diffs)
-    s = np.std(diffs)
+    s = np.std(diffs) ** 2
     z_scores = [(x-xbar)*1.0 / s for x in diffs]
-    _, _, _ = plt.hist(z_scores)
+    p_values = [1 - norm.cdf(z) for z in z_scores]
+    _, _, _ = plt.hist(p_values)
     plt.show()
 
 
