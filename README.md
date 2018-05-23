@@ -75,7 +75,10 @@ keyword3    02
 # Limits
 
 - A better MFD could be made since we are specifically looking at political language. Doesn't catch (federal government/big government, top 1%, etc.)
-- Only 1 reviewer for qualitative content analysis.
-
+- Only 1 reviewer for qualitative content analysis. Hard examples to rank:
+  - Authority: "In giving our people better mental health care, we increased the number of employees. But the efficiency of it, the simplicity of it, the ability of people to understand their own government and **control** it was a substantial benefit derived from complete reorganization.We have got to do this at the Federal Government level."
+  - Harm Virtue: "They put in $30,000 of their own money and got $120,000 in tax savings.These special kinds of programs have robbed the average taxpayer and have **benefited** those who are powerful and who can employ lobbyists and who can have their C.P."
+- Good examples of context needed:
+  - Ingroup detected due to context: "We can only be strong overseas if we're strong at home, and when I become President, we'll not only be strong in those areas but also in defense--a defense capability second to none. We've lost, in our **foreign** policy, the character of the American people. We've ignored or excluded the American people and the Congress from participation in the shaping of our foreign policy."
 # Discussion
 - For future research, [_Measuring Moral Rhetoric In Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) made a text analysis method that could focus on a specific topic instead of a whole body of text.
