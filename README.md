@@ -72,5 +72,10 @@ keyword3    02
 
 <img src="./img/quant_content.png"/>
 
+# Limits
+
+- A better MFD could be made since we are specifically looking at political language. Doesn't catch (federal government/big government, top 1%, etc.)
+- Only 1 reviewer for qualitative content analysis.
+
 # Discussion
 - For future research, [_Measuring Moral Rhetoric In Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) made a text analysis method that could focus on a specific topic instead of a whole body of text.
