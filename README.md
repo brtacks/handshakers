@@ -75,9 +75,10 @@ keyword3    02
 ## Good Examples
 | Foundation | Supporting | Neutral/Irrelevant | Rejecting |
 | --- | --- | --- | --- |
-| Ingroup | "We can only be strong overseas if we're strong at home, and when I become President, we'll not only be strong in those areas but also in defense--a defense capability second to none. We've lost, in our **foreign** policy, the character of the American people. We've ignored or excluded the American people and the Congress from participation in the shaping of our foreign policy." _Jimmy Carter (October 6, 1976)_ | |
+| Ingroup | "We can only be strong overseas if we're strong at home, and when I become President, we'll not only be strong in those areas but also in defense--a defense capability second to none. We've lost, in our **foreign** policy, the character of the American people. We've ignored or excluded the American people and the Congress from participation in the shaping of our foreign policy." _Jimmy Carter (October 6, 1976)_ | But that's the way I, George Bush, feel about it. (Scattered applause) The defense budget today takes far less percentage of the gross **national** product than it did in President Kennedy's time, for example moved tremendously. And you see, I think we're facing a real opportunity for world peace. _George H.W. Bush (October 13, 1988) | |
 | Authority | "The truth of the matter is, we did cut the increase in spending in half. It at the John doesn't quite realize - he's never held an executive **position** of that kind. And I think being Governor of California is probably the closest thing to the Presidency, if that's possible, of any executive job in America today - because it is the most populous state." _Ronald Reagan (September 21, 1980)_ | "I vetoed a number of bills of that kind myself, when I was in California. Now, whether it is rightful, on a single issue, for anyone to advocate that someone should not be elected or not, I won't take a **position** on that. But I do believe that no one in this country should be denied the right to express themselves, or to even try to persuade others to follow their leader." _Ronald Reagan (September 21, 1980)_ | |
 | Harm | | "I am concerned about what that does to our future. I'm concerned about the fact that so many of our _securities_ are in the hands of foreign banks because of these massive deficits. But those are the issues on which we ought to be debating and if we can just put away the flag factories and the balloons and those kinds of thing and get on to a real discussion of these issues, I think we will have a good success." _Michael Dukakis (October 13, 1989)_ | |
+| Purity | "So we can fight this war, and we can win this war. And we can do so in a way that marshals our forces, that provides real support for state and local law enforcement officers who have not been getting that support, and do it in a way which will bring down violence in this nation, will help our youngsters to stay away from drugs, will stop this avalanche of drugs that's pouring into the country, and will make it possible for our kids and our families to grow up in safe and secure and **decent** neighborhoods.Bernard, this was the first presidential decision that we as nominees were called upon to make." _Michael Dukakis (October 13, 1989)_ | | |
 
 
 # Limits
@@ -90,3 +91,6 @@ keyword3    02
  
 # Discussion
 - For future research, [_Measuring Moral Rhetoric In Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) made a text analysis method that could focus on a specific topic instead of a whole body of text.
+
+## Further Research
+- Use machine learning on a corpus of stump speeches?
