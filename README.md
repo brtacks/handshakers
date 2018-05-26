@@ -73,10 +73,11 @@ keyword3    02
 <img src="./img/quant_content.png"/>
 
 ## Good Examples
-| Foundation | Supporting | Neutral | Rejecting |
+| Foundation | Supporting | Neutral/Irrelevant | Rejecting |
 | --- | --- | --- | --- |
 | Ingroup | "We can only be strong overseas if we're strong at home, and when I become President, we'll not only be strong in those areas but also in defense--a defense capability second to none. We've lost, in our **foreign** policy, the character of the American people. We've ignored or excluded the American people and the Congress from participation in the shaping of our foreign policy." _Jimmy Carter (October 6, 1976)_ | |
 | Authority | "The truth of the matter is, we did cut the increase in spending in half. It at the John doesn't quite realize - he's never held an executive **position** of that kind. And I think being Governor of California is probably the closest thing to the Presidency, if that's possible, of any executive job in America today - because it is the most populous state." _Ronald Reagan (September 21, 1980)_ | "I vetoed a number of bills of that kind myself, when I was in California. Now, whether it is rightful, on a single issue, for anyone to advocate that someone should not be elected or not, I won't take a **position** on that. But I do believe that no one in this country should be denied the right to express themselves, or to even try to persuade others to follow their leader." _Ronald Reagan (September 21, 1980)_ | |
+| Harm | | "I am concerned about what that does to our future. I'm concerned about the fact that so many of our _securities_ are in the hands of foreign banks because of these massive deficits. But those are the issues on which we ought to be debating and if we can just put away the flag factories and the balloons and those kinds of thing and get on to a real discussion of these issues, I think we will have a good success." _Michael Dukakis (October 13, 1989)_ | |
 
 
 # Limits
