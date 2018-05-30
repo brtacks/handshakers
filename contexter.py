@@ -18,7 +18,7 @@ def init_mf_dict():
     foundations = []
     words = []
     with open(MF_DICT_FNAME) as mf:
-        lines = filter(None, mf.read().split('\n')[1:])
+        lines = list( filter(None, mf.read().split('\n')[1:]) )
         divider = lines.index('%')
         header, keywords = lines[:divider], lines[divider+1:]
         for line in header:
@@ -60,18 +60,18 @@ def generate_contexts():
             continue
         with open('data/raw/' + fname) as f:
             s = f.read()
-            print "== Generating context for %s =====" % fname
+            print('== Generating context for %s ====='.format(fname))
             dem_words, rep_words = construct_corpus(s)
-            print "  - Corpus constructed."
+            print('  - Corpus constructed.')
             dem_instances, rep_instances = find_sig_diffs(dem_words, rep_words)
-            print "  - Diffs generated."
+            print('Diffs generated.')
             write_to_excel(
                 fname[fname.find('-') + 1:fname.rfind('.')],
                 dem_instances,
                 rep_instances,
                 writer,
             )
-        print "  > Done.\n"
+        print('  > Done.\n')
 
     workbook = writer.book
     text_format = workbook.add_format({'text_wrap': True})
