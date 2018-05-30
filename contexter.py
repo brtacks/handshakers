@@ -11,30 +11,31 @@ import matplotlib.pyplot as plt
 
 MF_DICT_FNAME = 'data/raw/mf_dict.txt'
 
-# FOUNDATIONS serves as a hash map for 10 moral cores (virtue and vice for each
-# moral foundation). The moral foundations dictionary starts its indexing at 1.
-FOUNDATIONS = ['']
+FOUNDATIONS = []
 
 WORDS = []
 
 # load_mf_dict loads the moral foundations dictionary. It can be found at
 # https://github.com/brass-tacks/the-other-side.
 def init_mf_dict():
+    foundations = []
+    words = []
     with open(MF_DICT_FNAME) as mf:
         lines = filter(None, mf.read().split('\n')[1:])
         divider = lines.index('%')
         header, words = lines[:divider], lines[divider+1:]
         for line in header:
-            FOUNDATIONS.append(line.split('\t')[1])
+            foundations.append(line.split('\t')[1])
         for line in words:
             line = line.split('\t')
             word = line[0]
-            WORDS.append({
+            words.append({
                 'word': word,
                 'foundations': [int(x) for x in line[1].split(' ')],
                 'pattern': get_pattern(word),
                 'instances': []
             })
+    return foundations, words
 
 
 # get_pattern returns a regular expression for a word stem to capture the
@@ -212,5 +213,10 @@ def spread_words(words):
 
 
 if __name__ == '__main__':
-    init_mf_dict()
+    FOUNDATIONS, WORDS = init_mf_dict()
+    # FOUNDATIONS serves as a hash map for 10 moral cores (virtue and vice for
+    # each moral foundation). The moral foundations dictionary starts its
+    # indexing at 1.
+    FOUNDATIONS = [''] + FOUNDATIONS
+
     generate_contexts()
