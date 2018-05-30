@@ -5,9 +5,6 @@ import os
 import math
 import pandas as pd
 import numpy as np
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
 
 MF_DICT_FNAME = 'data/raw/mf_dict.txt'
 
@@ -23,10 +20,10 @@ def init_mf_dict():
     with open(MF_DICT_FNAME) as mf:
         lines = filter(None, mf.read().split('\n')[1:])
         divider = lines.index('%')
-        header, words = lines[:divider], lines[divider+1:]
+        header, keywords = lines[:divider], lines[divider+1:]
         for line in header:
             foundations.append(line.split('\t')[1])
-        for line in words:
+        for line in keywords:
             line = line.split('\t')
             word = line[0]
             words.append({
