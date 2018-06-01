@@ -30,9 +30,12 @@ def scan_contexter():
 
         # We now have foundation scores for both Dem's and Rep's.
         dem_founds, rep_founds = reduce_campaign( xl, debates )
+        print( 'Reduced {} debates.'.format(year) )
+
         plot_foundations( dem_founds, rep_founds, year )
 
 
+# plot_foundations plots the foundation scores in a double bar chart.
 def plot_foundations(dem_founds, rep_founds, year):
     # Plotting the bars
     fig, ax = plt.subplots( figsize=(10,5) )
@@ -83,7 +86,10 @@ def plot_foundations(dem_founds, rep_founds, year):
     ax.set_title( str(year) )
 
     plt.legend(['dem', 'rep'], loc='upper right')
+
+    print( 'Plotting {} foundation scores...'.format(year), end="", flush=True)
     plt.show()
+    print('[DONE]')
 
 
 # reduce_campaign reduces a year's debates into values for each moral foundation
