@@ -39,7 +39,7 @@ def scan_contexter():
         for f, score in rep_founds.items():
             print('  {0}: {1:.3f}'.format(f, score))
 
-        print()
+        print('')
 
         # We have to make sure the bars are in order. The scores of each
         # foundation's virtue are subtracted by each the scores of each

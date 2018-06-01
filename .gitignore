@@ -1,4 +1,13 @@
-venv
+# python
 *.pyc
-.DS_Store
+venv/
+
+# data
 *.xlsx
+
+# emacs
+\#*\#
+.\#*
+
+# misc
+.DS_Store
