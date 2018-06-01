@@ -92,6 +92,7 @@ keyword3    02
  
 # Discussion
 - For future research, [_Measuring Moral Rhetoric In Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) made a text analysis method that could focus on a specific topic instead of a whole body of text.
+- I could talk about Liberty/Oppression, why it wasn't included, and predict its effects.
 
 ## Further Research
 - Use machine learning on a corpus of stump speeches?
