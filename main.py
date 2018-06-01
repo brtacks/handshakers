@@ -28,57 +28,62 @@ def scan_contexter():
         if len(debates) == 0:
             continue
 
-        print('{}:'.format(year))
-
         # We now have foundation scores for both Dem's and Rep's.
         dem_founds, rep_founds = reduce_campaign( xl, debates )
-        plot_foundations( dem_founds, rep_founds )
-
-        break
+        plot_foundations( dem_founds, rep_founds, year )
 
 
-def plot_foundations(dem_founds, rep_founds):
+def plot_foundations(dem_founds, rep_founds, year):
     # Plotting the bars
     fig, ax = plt.subplots( figsize=(10,5) )
 
+    foundations, _ = contexter.init_mf_dict()
+
     chart_data = {
         # Remove '__Virtue' and '__Vice' from the foundation names
-        'foundations': [ f[ :len('Virtue') ] for f in FOUNDATIONS
+        'foundations': [ f[ :-len('Virtue') ] for f in foundations
                          if 'Virtue' in f ],
 
         # For each moral foundation, subtract its Vice score from its Virtue
         # score
-        'dem': [ dem_founds[ FOUNDATIONS[f] ] -
-                 dem_founds[ FOUNDATIONS[f+1] ]
-                 for f in range( 0, len(FOUNDATIONS)/2, 2 )],
-        'rep': [ rep_founds[ FOUNDATIONS[f] ] -
-                 rep_founds[ FOUNDATIONS[f+1] ]
-                 for f in range( 0, len(FOUNDATIONS)/2, 2 )],
+        'dem': [ dem_founds[ foundations[f] ] -
+                 dem_founds[ foundations[f+1] ]
+                 for f in range( 0, len(foundations), 2 )],
+        'rep': [ rep_founds[ foundations[f] ] -
+                 rep_founds[ foundations[f+1] ]
+                 for f in range( 0, len(foundations), 2 )],
     }
     chart_df = pd.DataFrame(
         chart_data,
         columns=[ 'foundations', 'dem', 'rep' ],
     )
 
-    iota = np.arange(len(FOUNDATIONS) / 2) # Why didn't I do this in Go
+    iota = np.arange(len(foundations) / 2) # Why didn't I do this in Go
     width = 0.3 # width of the bars
 
     # Create the Democrat bar
     plt.bar(
-        iota + width,
-        df['dem'],
+        iota,
+        chart_df['dem'],
         width,
         color='b',
-        label=df['foundations']
+        label=chart_df['foundations'][0]
     )
     # Create the Republican bar
     plt.bar(
         iota + width,
-        df['rep'],
+        chart_df['rep'],
         width,
         color='r',
-        label=df['foundations']
+        label=chart_df['foundations'][0]
     )
+
+    ax.set_xticks( iota + 0.5*width )
+    ax.set_xticklabels( chart_df['foundations'] )
+    ax.set_title( str(year) )
+
+    plt.legend(['dem', 'rep'], loc='upper right')
+    plt.show()
 
 
 # reduce_campaign reduces a year's debates into values for each moral foundation
@@ -128,10 +133,6 @@ def reduce_debate(debate, foundations):
 if __name__ == '__main__':
     foundations, _ = contexter.init_mf_dict()
     FOUNDATIONS = { f: [] for f in foundations }
-
-    with open('foo.pkl') as f:
-        d = pickle.load(f)
-        plot_foundations(d[0], d[1])
-    # scan_contexter()
+    scan_contexter()
 
 
