@@ -2,8 +2,10 @@ import pandas as pd
 import numpy as np
 import copy
 import math
+import pickle
 import sys
 import contexter
+
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -30,44 +32,53 @@ def scan_contexter():
 
         # We now have foundation scores for both Dem's and Rep's.
         dem_founds, rep_founds = reduce_campaign( xl, debates )
+        plot_foundations( dem_founds, rep_founds )
 
-        print('Democratic Party:')
-        for f, score in dem_founds.items():
-            print('  {0}: {1:.3f}'.format(f, score))
+        break
 
-        print('Republican Party:')
-        for f, score in rep_founds.items():
-            print('  {0}: {1:.3f}'.format(f, score))
 
-        print('')
+def plot_foundations(dem_founds, rep_founds):
+    # Plotting the bars
+    fig, ax = plt.subplots( figsize=(10,5) )
 
-        # We have to make sure the bars are in order. The scores of each
-        # foundation's virtue are subtracted by each the scores of each
-        # foundation's vice.
-        # iterf = iter( FOUNDATIONS ) # To iterate over two values at a time
-        # data = [
-        #     [
-        #         rep_founds[f] - rep_founds[ next(iterf) ]
-        #         for f in iterf
-        #     ],
-        # ]
+    chart_data = {
+        # Remove '__Virtue' and '__Vice' from the foundation names
+        'foundations': [ f[ :len('Virtue') ] for f in FOUNDATIONS
+                         if 'Virtue' in f ],
 
-        # X = np.arange( len(FOUNDATIONS) / 2
-        # plt.bar(
-        #     X + 0.00,
-        #     [ dem_founds[f] - dem_founds[ next(iterf) ] for f in iterf ],
-        #     color='b',
-        #     width=0.3,
-        # )
-        # plt.bar(
-        #     X + 0.25,
-        #     [ rep_founds[f] - rep_founds[ next(iterf) ] for f in iterf ],
-        #     color='r',
-        #     width=0.3,
-        # )
-        # plt.show()
+        # For each moral foundation, subtract its Vice score from its Virtue
+        # score
+        'dem': [ dem_founds[ FOUNDATIONS[f] ] -
+                 dem_founds[ FOUNDATIONS[f+1] ]
+                 for f in range( 0, len(FOUNDATIONS)/2, 2 )],
+        'rep': [ rep_founds[ FOUNDATIONS[f] ] -
+                 rep_founds[ FOUNDATIONS[f+1] ]
+                 for f in range( 0, len(FOUNDATIONS)/2, 2 )],
+    }
+    chart_df = pd.DataFrame(
+        chart_data,
+        columns=[ 'foundations', 'dem', 'rep' ],
+    )
 
-        # break
+    iota = np.arange(len(FOUNDATIONS) / 2) # Why didn't I do this in Go
+    width = 0.3 # width of the bars
+
+    # Create the Democrat bar
+    plt.bar(
+        iota + width,
+        df['dem'],
+        width,
+        color='b',
+        label=df['foundations']
+    )
+    # Create the Republican bar
+    plt.bar(
+        iota + width,
+        df['rep'],
+        width,
+        color='r',
+        label=df['foundations']
+    )
 
 
 # reduce_campaign reduces a year's debates into values for each moral foundation
@@ -118,6 +129,9 @@ if __name__ == '__main__':
     foundations, _ = contexter.init_mf_dict()
     FOUNDATIONS = { f: [] for f in foundations }
 
-    scan_contexter()
+    with open('foo.pkl') as f:
+        d = pickle.load(f)
+        plot_foundations(d[0], d[1])
+    # scan_contexter()
 
 
