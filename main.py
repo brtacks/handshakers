@@ -108,12 +108,12 @@ def reduce_campaign(contexter, debates):
         if len(scores) == 0:
             dem_foundations[f] = 0
         else:
-            dem_foundations[f] = sum(scores) * 1.0 / len(scores)
+            dem_foundations[f] = sum(scores) # * 1.0 / len(scores)
     for f, scores in rep_foundations.items():
         if len(scores) == 0:
             rep_foundations[f] = 0
         else:
-            rep_foundations[f] = sum(scores) * 1.0 / len(scores)
+            rep_foundations[f] = sum(scores) # * 1.0 / len(scores)
 
     return dem_foundations, rep_foundations
 
