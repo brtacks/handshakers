@@ -15,11 +15,22 @@ CONTEXTER_FNAME = 'data/contexter.xlsx'
 FOUNDATIONS = {}
 
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    '--graph',
+    help='option to display certain types of plots'
+)
+args = parser.parse_args()
+
+
 # scan_contexter reduces our qualitative analysis on a year-by-year basis.
 def scan_contexter():
     xl = pd.ExcelFile( CONTEXTER_FNAME )
 
     all_debates = xl.sheet_names
+
+    all_campaigns = {}
 
     for year in range(1960, 2017, 4):
         debates = [
@@ -32,11 +43,31 @@ def scan_contexter():
         dem_founds, rep_founds = reduce_campaign( xl, debates )
         print( 'Reduced {} debates.'.format(year) )
 
-        plot_foundations( dem_founds, rep_founds, year )
+        all_campaigns[year] = {
+            'D': dem_founds,
+            'R': rep_founds,
+        }
+
+    if args.graph == 'bar':
+        plot_all_bar_foundations( dem_founds, rep_founds, year )
+    elif args.graph == 'line':
+        line_foundations( dem_founds, rep_founds, year )
 
 
-# plot_foundations plots the foundation scores in a double bar chart.
-def plot_foundations(dem_founds, rep_founds, year):
+# plot_all_bar_foundations calls plot_bar_foundations for each year.
+def plot_all_bar_foundations(all_campigns):
+     
+
+
+# plot_bar_foundations plots the foundation scores in a double bar chart for one
+# year.
+def plot_bar_foundations(dem_founds, rep_founds, year):
+    print(
+        'Plotting bar {} foundation scores...'.format(year),
+        end='',
+        flush=True
+    )
+
     # Plotting the bars
     fig, ax = plt.subplots( figsize=(10,5) )
 
@@ -87,9 +118,20 @@ def plot_foundations(dem_founds, rep_founds, year):
 
     plt.legend(['dem', 'rep'], loc='upper right')
 
-    print( 'Plotting {} foundation scores...'.format(year), end="", flush=True)
     plt.show()
     print('[DONE]')
+
+
+# line_foundations plots the foundation scores of each foundation in a double
+# line chart.
+def line_foundations(dem_founds, rep_founds, year):
+    print(
+        'Plotting line {} foundation scores...'.format(year),
+        end='',
+        flush=True
+    )
+
+    #
 
 
 # reduce_campaign reduces a year's debates into values for each moral foundation
@@ -139,6 +181,7 @@ def reduce_debate(debate, foundations):
 if __name__ == '__main__':
     foundations, _ = contexter.init_mf_dict()
     FOUNDATIONS = { f: [] for f in foundations }
+
     scan_contexter()
 
 
