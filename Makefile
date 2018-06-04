@@ -1,5 +1,5 @@
 run: main.py
-	python3 main.py --graph='bar'
+	python3 main.py --graph='line'
 
 clean:
 	rm *.pyc

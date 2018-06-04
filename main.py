@@ -30,7 +30,7 @@ def scan_contexter():
 
     all_debates = xl.sheet_names
 
-    all_campaigns = {}
+    all_campaigns = []
 
     for year in range(1960, 2017, 4):
         debates = [
@@ -41,22 +41,28 @@ def scan_contexter():
 
         # We now have foundation scores for both Dem's and Rep's.
         dem_founds, rep_founds = reduce_campaign( xl, debates )
-        print( 'Reduced {} debates.'.format(year) )
+        print( 'Reduced the {} debate.'.format(year) )
 
-        all_campaigns[year] = {
+        all_campaigns.append({
             'D': dem_founds,
             'R': rep_founds,
-        }
+            'year': year,
+        })
 
     if args.graph == 'bar':
-        plot_all_bar_foundations( dem_founds, rep_founds, year )
+        plot_all_bar_foundations(all_campaigns)
     elif args.graph == 'line':
-        line_foundations( dem_founds, rep_founds, year )
+        plot_all_line_foundations(all_campaigns)
 
 
 # plot_all_bar_foundations calls plot_bar_foundations for each year.
-def plot_all_bar_foundations(all_campigns):
-     
+def plot_all_bar_foundations(all_campaigns):
+     for campaign in all_campaigns:
+         plot_bar_foundations(
+             campaign['D'],
+             campaign['R'],
+             campaign['year']
+         )
 
 
 # plot_bar_foundations plots the foundation scores in a double bar chart for one
@@ -69,7 +75,7 @@ def plot_bar_foundations(dem_founds, rep_founds, year):
     )
 
     # Plotting the bars
-    fig, ax = plt.subplots( figsize=(10,5) )
+    fig, ax = plt.subplots( figsize=(10,8) )
 
     foundations, _ = contexter.init_mf_dict()
 
@@ -122,16 +128,55 @@ def plot_bar_foundations(dem_founds, rep_founds, year):
     print('[DONE]')
 
 
-# line_foundations plots the foundation scores of each foundation in a double
-# line chart.
-def line_foundations(dem_founds, rep_founds, year):
+# plot_all_line_foundations calls plot_line_foundations for each foundation.
+def plot_all_line_foundations(all_campaigns):
+
+    # For each foundation, plot its lines.
+    for f in [ f[ :-len('Virtue') ] for f in foundations if 'Virtue' in f ]:
+        plot_foundation_lines(all_campaigns, f)
+
+
+# plot_foundation_lines plots the foundation scores of each foundation in a
+# dobule line chart.
+def plot_foundation_lines(all_campaigns, foundation):
     print(
-        'Plotting line {} foundation scores...'.format(year),
+        'Plotting foundation lines for {}...'.format( foundation ),
         end='',
         flush=True
     )
 
-    #
+    chart_data = {
+        'dem': [],
+        'rep': [],
+        'year': [],
+    }
+
+    for campaign in all_campaigns:
+        chart_data['dem'].append(
+            campaign['D'][ foundation + 'Virtue'] -
+            campaign['D'][ foundation + 'Vice' ]
+        )
+        chart_data['rep'].append(
+            campaign['R'][ foundation + 'Virtue'] -
+            campaign['R'][ foundation + 'Vice' ]
+        )
+        chart_data['year'].append( campaign['year'] )
+
+    chart_df = pd.DataFrame(chart_data)
+
+    dem, = plt.plot( 'year', 'dem', data=chart_df, color='b' )
+    rep, = plt.plot( 'year', 'rep', data=chart_df, color='r' )
+
+    plt.title( foundation )
+    plt.xlabel( 'year')
+    plt.ylabel( 'score' )
+    plt.legend()
+    fig = plt.gcf()
+    fig.set_size_inches(10, 8, forward=True)
+
+    plt.show()
+
+    print('[DONE]')
 
 
 # reduce_campaign reduces a year's debates into values for each moral foundation

@@ -72,6 +72,10 @@ keyword3    02
 
 <img src="./img/quant_content.png"/>
 
+<img src="./img/foundation_lines.png"/>
+
+<img src="./img/year_bars.png"/>
+
 ## Good Examples
 | Foundation | Supporting | Neutral/Irrelevant | Rejecting |
 | --- | --- | --- | --- |
