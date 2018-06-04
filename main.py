@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 import copy
@@ -21,6 +23,7 @@ parser.add_argument(
     '--graph',
     help='option to display certain types of plots'
 )
+
 args = parser.parse_args()
 
 
@@ -123,8 +126,8 @@ def plot_bar_foundations(dem_founds, rep_founds, year):
     ax.set_title( str(year) )
 
     plt.legend(['dem', 'rep'], loc='upper right')
-
     plt.show()
+
     print('[DONE]')
 
 
@@ -171,9 +174,9 @@ def plot_foundation_lines(all_campaigns, foundation):
     plt.xlabel( 'year')
     plt.ylabel( 'score' )
     plt.legend()
+
     fig = plt.gcf()
     fig.set_size_inches(10, 8, forward=True)
-
     plt.show()
 
     print('[DONE]')
