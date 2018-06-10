@@ -1,6 +1,6 @@
 # The Other Side
 
-_The Other Side_ (to be renamed) analyzes the political psychologies of the Democratic and Republican parties since 1960 (the year of the first general presidential debate).
+_The Other Side_ (to be renamed) analyzes the political psychologies of the Democratic and Republican parties since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md)
 
 Debate transcripts can be found at [The American Presidency Project](http://www.presidency.ucsb.edu/debates.php).
 
@@ -93,8 +93,8 @@ keyword3    02
   - Authority: "In giving our people better mental health care, we increased the number of employees. But the efficiency of it, the simplicity of it, the ability of people to understand their own government and **control** it was a substantial benefit derived from complete reorganization.We have got to do this at the Federal Government level."
   - Harm Virtue: "They put in $30,000 of their own money and got $120,000 in tax savings.These special kinds of programs have robbed the average taxpayer and have **benefited** those who are powerful and who can employ lobbyists and who can have their C.P."
 - MFD and raw word frequency analysis is obviously flawed. In the technique put forth by Graham, Haidt, and Nosek (2009), sentences such as "I know these campaigns get knocked a lot, but I think I'd be a better President now for having had to travel to these communities and understand the family values and the importance of neighborhood." are weighted the same as "I think the foremost responsibility of a president really gets down to the national security of this country." Both support the Ingroup moral foundation, yet the former should be weighted more than the latter.
- 
- 
+
+
 # Discussion
 - For future research, [_Measuring Moral Rhetoric In Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) made a text analysis method that could focus on a specific topic instead of a whole body of text.
 - I could talk about Liberty/Oppression, why it wasn't included, and predict its effects.
