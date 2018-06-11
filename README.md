@@ -1,6 +1,6 @@
-# The Other Side
+# The Honorable Handshakers
 
-_The Other Side_ (to be renamed) analyzes the political psychologies of the Democratic and Republican parties since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md)
+_The Honorable Handshakers_ analyzes the political psychologies of the Democratic and Republican parties since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md)
 
 Debate transcripts can be found at [The American Presidency Project](http://www.presidency.ucsb.edu/debates.php).
 
