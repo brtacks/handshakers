@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from extract import extract_face
 import requests
 import shutil
 import os
@@ -70,22 +71,22 @@ def download_faces(face_urls):
 
     paths = []
     for title, url in face_urls.items():
-        r = requests.get(url, stream=True)
-        path = '{}/{}.jpg'
-        with open( path.format(dir, title), 'wb' ) as out_file:
-            shutil.copyfileobj( r.raw, out_file )
+        path = '{}/{}.jpg'.format(dir, title)
         paths.append( path )
+        if os.path.isfile(path):
+            continue
+        r = requests.get(url, stream=True)
+        with open( path, 'wb' ) as out_file:
+            shutil.copyfileobj( r.raw, out_file )
 
     return paths
 
 
 # extract_faces extracts faces from every face image.
 def extract_faces(paths):
-    dir = './data/faces/extracted'
-    make_dir( dir )
-
+    make_dir('./data/faces/extracted')
     for path in paths:
-        detect_face.detect_faces( path )
+        extract_face(path)
 
 
 # make_dir makes a directory if it does not already exist.
@@ -96,4 +97,7 @@ def make_dir(dir):
 
 if __name__ == '__main__':
     face_urls = get_face_urls()
+    print('Received face urls.')
     face_paths = download_faces( face_urls )
+    print('Downloaded all faces.')
+    extract_faces( face_paths )
