@@ -66,15 +66,34 @@ def get_face_urls():
 # download_faces downloads every face image from face_urls.
 def download_faces(face_urls):
     dir = './data/faces'
-    if not os.path.exists( dir ):
-        os.makedirs( dir )
+    make_dir( dir )
+
+    paths = []
     for title, url in face_urls.items():
         r = requests.get(url, stream=True)
-        with open( '{}/{}.jpg'.format(dir, title), 'wb' ) as out_file:
-            shutil.copyfileobj(r.raw, out_file)
-        print('Downloaded ' + title)
+        path = '{}/{}.jpg'
+        with open( path.format(dir, title), 'wb' ) as out_file:
+            shutil.copyfileobj( r.raw, out_file )
+        paths.append( path )
+
+    return paths
+
+
+# extract_faces extracts faces from every face image.
+def extract_faces(paths):
+    dir = './data/faces/extracted'
+    make_dir( dir )
+
+    for path in paths:
+        detect_face.detect_faces( path )
+
+
+# make_dir makes a directory if it does not already exist.
+def make_dir(dir):
+    if not os.path.exists( dir ):
+        os.makedirs( dir )
 
 
 if __name__ == '__main__':
     face_urls = get_face_urls()
-    download_faces( face_urls )
+    face_paths = download_faces( face_urls )
