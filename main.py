@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import shutil
+import os
 
 
 WIKI_ENDPOINT = 'https://en.wikipedia.org/w/api.php'
@@ -29,7 +30,7 @@ CANDIDATES = [
 
 # get_face_urls gets the image urls for the faces of every candidate.
 def get_face_urls():
-    urls = []
+    urls = {}
 
     for title in CANDIDATES:
         r = requests.get(
@@ -54,7 +55,7 @@ def get_face_urls():
             continue
 
         try:
-            urls.append( list(pages.values())[0]['thumbnail']['source'] )
+            urls[title] = list(pages.values())[0]['thumbnail']['source']
         except (KeyError, IndexError) as e:
             print('Unexpected JSON format for {}.\nIn pages: {}'
                   .format(r.url, pages))
@@ -62,6 +63,18 @@ def get_face_urls():
     return urls
 
 
+# download_faces downloads every face image from face_urls.
+def download_faces(face_urls):
+    dir = './data/faces'
+    if not os.path.exists( dir ):
+        os.makedirs( dir )
+    for title, url in face_urls.items():
+        r = requests.get(url, stream=True)
+        with open( '{}/{}.jpg'.format(dir, title), 'wb' ) as out_file:
+            shutil.copyfileobj(r.raw, out_file)
+        print('Downloaded ' + title)
+
+
 if __name__ == '__main__':
     face_urls = get_face_urls()
-    print(face_urls)
+    download_faces( face_urls )
