@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import shutil
 
 
 WIKI_ENDPOINT = 'https://en.wikipedia.org/w/api.php'
@@ -28,7 +29,39 @@ CANDIDATES = [
 
 # get_face_urls gets the image urls for the faces of every candidate.
 def get_face_urls():
-    candidates = get_candidates()
+    urls = []
+
+    for title in CANDIDATES:
+        r = requests.get(
+            WIKI_ENDPOINT,
+            params={
+                'action': 'query',
+                'prop': 'pageimages',
+                'format': 'json',
+                'pithumbsize': 200,
+                'titles': title,
+            }
+        )
+
+        pages = r.json()['query']['pages']
+        if len(pages) == 0:
+            print('No wikipedia page found for {}. Skipping candidate.'
+                  .format(r.url))
+            continue
+        if len(pages) > 1:
+            print('Multiple wikipedia pages found for {}. Skipping candidate.'
+                  .format(r.url))
+            continue
+
+        try:
+            urls.append( list(pages.values())[0]['thumbnail']['source'] )
+        except (KeyError, IndexError) as e:
+            print('Unexpected JSON format for {}.\nIn pages: {}'
+                  .format(r.url, pages))
+
+    return urls
+
 
 if __name__ == '__main__':
     face_urls = get_face_urls()
+    print(face_urls)
