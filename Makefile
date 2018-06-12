@@ -1,5 +1,5 @@
 run: main.py
-	python3 main.py --graph='$(g)'
+	python3 main.py
 
 clean:
 	rm *.pyc
