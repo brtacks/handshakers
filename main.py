@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from extract import extract_face
+from extract import extract_face, crop_circle
 import requests
 import shutil
 import os
@@ -40,7 +40,7 @@ def get_face_urls():
                 'action': 'query',
                 'prop': 'pageimages',
                 'format': 'json',
-                'pithumbsize': 200,
+                'pithumbsize': 300,
                 'titles': title,
             }
         )
@@ -71,7 +71,7 @@ def download_faces(face_urls):
 
     paths = []
     for title, url in face_urls.items():
-        path = '{}/{}.jpg'.format(dir, title)
+        path = '{}/{}.png'.format(dir, title)
         paths.append( path )
         if os.path.isfile(path):
             continue
@@ -85,8 +85,10 @@ def download_faces(face_urls):
 # extract_faces extracts faces from every face image.
 def extract_faces(paths):
     make_dir('./data/faces/extracted')
+    make_dir('./data/faces/cropped')
     for path in paths:
-        extract_face(path)
+        out_path = extract_face(path)
+        crop_circle(out_path)
 
 
 # make_dir makes a directory if it does not already exist.
