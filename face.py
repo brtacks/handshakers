@@ -68,7 +68,7 @@ def get_face_urls():
 
 # download_faces downloads every face image from face_urls.
 def download_faces(face_urls):
-    dir = './data/faces'
+    dir = './data/faces/original'
     make_dir( dir )
 
     paths = []
@@ -119,7 +119,7 @@ def extract_face(path):
     out_path = None
     for (x, y, w, h) in faces:
         sub_img = image[y - 10:y + h + 10, x - 10:x + w + 10]
-        out_path = path.replace('faces/', 'faces/extracted/')
+        out_path = path.replace('original/', 'extracted/')
         cv2.imwrite(out_path, sub_img)
 
     return out_path

@@ -6,7 +6,7 @@ import math
 import pandas as pd
 import numpy as np
 
-MF_DICT_FNAME = 'data/raw/mf_dict.txt'
+MF_DICT_FNAME = 'data/transcripts/mf_dict.txt'
 
 FOUNDATIONS = []
 
@@ -53,12 +53,12 @@ def generate_contexts():
     writer = pd.ExcelWriter('data/writer.xlsx', engine='xlsxwriter')
 
     files = sorted(
-        [f for f in os.listdir('data/raw/') if f.find('Presidential') == 0]
+        [f for f in os.listdir('data/transcripts/') if f.find('Presidential') == 0]
     )
     for fname in files:
         if fname.find('Presidential') != 0:
             continue
-        with open('data/raw/' + fname) as f:
+        with open('data/transcripts/' + fname) as f:
             s = f.read()
             print('== Generating context for %s ====='.format(fname))
             dem_words, rep_words = construct_corpus(s)

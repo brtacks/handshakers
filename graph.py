@@ -42,6 +42,9 @@ def scan_contexter():
         # We now have foundation scores for both Dem's and Rep's.
         dem_founds, rep_founds = reduce_campaign( xl, debates )
         print( 'Reduced the {} debate.'.format(year) )
+        print('==========')
+        print(dem_founds)
+        print(rep_founds)
 
         all_campaigns.append({
             'D': dem_founds,
@@ -228,5 +231,4 @@ if __name__ == '__main__':
     FOUNDATIONS = { f: [] for f in foundations }
 
     scan_contexter()
-
 
