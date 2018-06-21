@@ -20,7 +20,13 @@ parser.add_argument(
     '--graph',
     help='option to display certain types of plots'
 )
-
+parser.add_argument(
+    '--csv',
+    dest='csv',
+    action='store_true',
+    help='write to csv file at ./data/foundations.csv'
+)
+parser.set_defaults(csv=False)
 args = parser.parse_args()
 
 
@@ -42,9 +48,6 @@ def scan_contexter():
         # We now have foundation scores for both Dem's and Rep's.
         dem_founds, rep_founds = reduce_campaign( xl, debates )
         print( 'Reduced the {} debate.'.format(year) )
-        print('==========')
-        print(dem_founds)
-        print(rep_founds)
 
         all_campaigns.append({
             'D': dem_founds,
@@ -56,6 +59,9 @@ def scan_contexter():
         plot_all_bar_foundations(all_campaigns)
     elif args.graph == 'line':
         plot_all_line_foundations(all_campaigns)
+
+    if args.csv:
+        write_csv(all_campaigns, './data/foundations.csv')
 
 
 # plot_all_bar_foundations calls plot_bar_foundations for each year.
@@ -224,6 +230,25 @@ def reduce_debate(debate, foundations):
             print('No score given in: ' + row['instance'])
             sys.exit(1)
         foundations[f].append(score)
+
+
+# write_csv writes all campaign data into a csv.
+# Structure of campaigns: [{ D: { foundations }, R: { foundations }, year }]
+def write_csv(campaigns, fname):
+    data = {f: [] for f in ['year', 'party'] + list(FOUNDATIONS.keys())}
+
+    for campaign in campaigns:
+        year = campaign['year']
+
+        for party in ['D', 'R']:
+            data['year'].append(year)
+            data['party'].append(party)
+
+            for f in FOUNDATIONS.keys():
+                data[f].append( campaign[party][f] )
+
+    df = pd.DataFrame(data=data)
+    df.to_csv(fname, index=False)
 
 
 if __name__ == '__main__':
