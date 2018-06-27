@@ -1,3 +1,5 @@
+# Pitch
+
 _What we know a priori:_ 
 
 - The perspective analyses for significantly differing words in each moral foundation between each political party. In other words, we have the scores for each moral foundation, for each party, for each year.
@@ -17,6 +19,8 @@ _Does the reader leave the essay feeling differently?_
 
 - Most New York Democrats cannot understand why some Philadelphian union workers support the Republican party. They do not understand the rationale, the logic, the numbers. However, voters are also influenced by a wide variety of social and emotional forces. Some of these forces are trivial or peripheral factors whose influence we lament, such as a candidate’s appearance. In recent years increasing attention has been paid to the role of another class of non-self-interested concerns: morality.
 - By shining light on the moral foundations our politicians appeal to, ...
+
+
 
 # Pudding Rubric
 
