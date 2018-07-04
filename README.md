@@ -22,6 +22,7 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 - [_Measuring Moral Rhetoric in Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) (1-13)
 
 ## On Ideology and Sentiment
+- [An Empirical Exploration of Moral Foundations Theory in Partisan News Sources](https://pdfs.semanticscholar.org/efcc/bf80826d94d15871b077ea75d47722937c40.pdf)
 - [_Moral Foundations and Heterogeneity in Ideological Preferences_](http://www.jstor.org/stable/23481157)
 - [_Morality Between the Lines: Detecting Moral Sentiment In Text_](http://morteza-dehghani.net/wp-content/uploads/morality-lines-detecting.pdf)
 
