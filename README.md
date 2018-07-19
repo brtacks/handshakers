@@ -12,7 +12,7 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 - [x] *2<sup>nd</sup> Aggregator:* combining debate scores for each year (separate primary & general)
 - [ ] *Writing:* outline and write the article
 - [ ] *Website:* make the website
-- [ ] *Data Visualization: use D3 to create a ranky scrollyteller
+- [ ] *Data Visualization:* use D3 to create awesome data visualizations
 
 # Literature
 
