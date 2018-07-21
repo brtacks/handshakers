@@ -1,14 +1,3 @@
-_What we know a priori:_ 
-- The perspective analyses for significantly differing words in each moral foundation between each political party. In other words, we have the scores for each moral foundation, for each party, for each year.
-- 3-sentence surrounding contexts of said words
-- All debate transcripts
-
-_What are we trying to learn?_
-- By looking at the moral scores in each debate, we can get a sense of the differences in how each party appealed to the country for specific issues like gay marriage or the war in Iraq.
-
-1. Start the article with an example of how the parties appeal to different morals.
-2. I have no idea; going to sleep.
-
 # 1960: "Get America Moving Again" (Kennedy)
 
 <img src="./img/1960.png"/>
@@ -22,4 +11,4 @@ Kennedy took advantage of increased Cold War tension by emphasizing a perceived 
 
 # 2004
 
-- Purity levels rose because of the presence of gay marriage in the debates.
+- Purity levels rose because of the presence of gay marriage in the debates. [Video clip](https://youtu.be/sy2bHZsCD1g?t=23m3s), [writer](https://docs.google.com/spreadsheets/d/1eWHOCrEhcuOHghSRurFiinCFjGGX0aMrCzWD7CDdpFU/edit#gid=1730715372)

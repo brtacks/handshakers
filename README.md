@@ -1,6 +1,6 @@
 # The Honeyed Handshakers
 
-_The Honeyed Handshakers_ analyzes the how the Democratic and Republican parties have appealed to our morals since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md)
+_The Honeyed Handshakers_ analyzes the how the Democratic and Republican parties have appealed to our morals since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md). For the outline, see [OUTLINE.md](OUTLINE.md).
 
 Debate transcripts can be found at [The American Presidency Project](http://www.presidency.ucsb.edu/debates.php).
 
@@ -12,7 +12,7 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 - [x] *2<sup>nd</sup> Aggregator:* combining debate scores for each year (separate primary & general)
 - [ ] *Writing:* outline and write the article
 - [ ] *Website:* make the website
-- [ ] *Data Visualization: use D3 to create a ranky scrollyteller
+- [ ] *Data Visualization:* use D3 to create awesome data visualizations
 
 # Literature
 
@@ -22,6 +22,7 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 - [_Measuring Moral Rhetoric in Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) (1-13)
 
 ## On Ideology and Sentiment
+- [_An Empirical Exploration of Moral Foundations Theory in Partisan News Sources_](https://pdfs.semanticscholar.org/efcc/bf80826d94d15871b077ea75d47722937c40.pdf)
 - [_Moral Foundations and Heterogeneity in Ideological Preferences_](http://www.jstor.org/stable/23481157)
 - [_Morality Between the Lines: Detecting Moral Sentiment In Text_](http://morteza-dehghani.net/wp-content/uploads/morality-lines-detecting.pdf)
 
