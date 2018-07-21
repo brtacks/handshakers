@@ -64,14 +64,14 @@ def generate_contexts():
             dem_words, rep_words = construct_corpus(s)
             print('  - Corpus constructed.')
             dem_instances, rep_instances = find_sig_diffs(dem_words, rep_words)
-            print('Diffs generated.')
+            print('  - Diffs generated.')
             write_to_excel(
                 fname[fname.find('-') + 1:fname.rfind('.')],
                 dem_instances,
                 rep_instances,
                 writer,
             )
-        print('  > Done.\n')
+        print('  * Done.\n')
 
     workbook = writer.book
     text_format = workbook.add_format({'text_wrap': True})
