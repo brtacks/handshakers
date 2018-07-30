@@ -11,8 +11,7 @@ MF_DICT_FNAME = 'data/transcripts/mf_dict.txt'
 FOUNDATIONS = []
 WORDS = []
 
-# load_mf_dict loads the moral foundations dictionary. It can be found at
-# https://github.com/brass-tacks/the-other-side.
+# load_mf_dict loads the moral foundations dictionary.
 def init_mf_dict():
     foundations = []
     words = []
