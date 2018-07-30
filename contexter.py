@@ -12,7 +12,7 @@ FOUNDATIONS = []
 WORDS = []
 
 # load_mf_dict loads the moral foundations dictionary.
-def init_mf_dict():
+def load_mf_dict():
     foundations = []
     words = []
     with open(MF_DICT_FNAME) as mf:
@@ -208,7 +208,7 @@ def spread_words(words):
 
 
 if __name__ == '__main__':
-    FOUNDATIONS, WORDS = init_mf_dict()
+    FOUNDATIONS, WORDS = load_mf_dict()
     # FOUNDATIONS serves as a hash map for 10 moral cores (virtue and vice for
     # each moral foundation). The moral foundations dictionary starts its
     # indexing at 1.
