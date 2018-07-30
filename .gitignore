@@ -8,3 +8,5 @@ venv/
 
 # misc
 .DS_Store
+.idea
+.vscode
