@@ -9,7 +9,6 @@ import numpy as np
 MF_DICT_FNAME = 'data/transcripts/mf_dict.txt'
 
 FOUNDATIONS = []
-
 WORDS = []
 
 # load_mf_dict loads the moral foundations dictionary. It can be found at
