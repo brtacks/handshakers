@@ -1,6 +1,6 @@
-# The Honeyed Handshakers
+# The Handshakers
 
-_The Honeyed Handshakers_ analyzes the how the Democratic and Republican parties have appealed to our morals since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md). For the outline, see [OUTLINE.md](OUTLINE.md).
+_The Handshakers_ analyzes the how the Democratic and Republican parties have appealed to our morals since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md). For the outline, see [OUTLINE.md](OUTLINE.md).
 
 Debate transcripts can be found at [The American Presidency Project](http://www.presidency.ucsb.edu/debates.php).
 
