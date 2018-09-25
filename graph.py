@@ -86,7 +86,7 @@ def plot_bar_foundations(dem_founds, rep_founds, year):
     # Plotting the bars
     fig, ax = plt.subplots( figsize=(10,8) )
 
-    foundations, _ = contexter.init_mf_dict()
+    foundations, _ = contexter.load_mf_dict()
 
     chart_data = {
         # Remove '__Virtue' and '__Vice' from the foundation names
@@ -252,7 +252,7 @@ def write_csv(campaigns, fname):
 
 
 if __name__ == '__main__':
-    foundations, _ = contexter.init_mf_dict()
+    foundations, _ = contexter.load_mf_dict()
     FOUNDATIONS = { f: [] for f in foundations }
 
     scan_contexter()
