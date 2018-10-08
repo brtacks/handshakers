@@ -6,6 +6,13 @@ _The Handshakers_ analyzes the how the Democratic and Republican parties have ap
 
 Debate transcripts can be found at [The American Presidency Project](http://www.presidency.ucsb.edu/debates.php).
 
+# Files
+
+- **contexter.py**: generate a, Excel spreadsheet with N sheets. Each sheet represents one candidate's moral triggers and their contexts (of length 3 sentences).
+- **face.py**: gets faces of candidates from Wikipedia and crops into circular icons
+- **graph.py**: presents two options for matplotlib graphing, (1) line graphs for each moral foundation across all years, (2) bar graphs for each year across all moral foundations.
+- **scrape.py**: scrapes presidential debates from [The American Presidency Project](http://www.presidency.ucsb.edu/debates.php).
+
 # Timeline
 
 - [x] *Scraping:* cleaning transcripts from the web and storing them in formatted CSV's
