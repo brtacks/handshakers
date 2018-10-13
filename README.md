@@ -1,6 +1,6 @@
-# The Handshakers
+# Properly Partisan
 
-_The Handshakers_ analyzes the how the Democratic and Republican parties have appealed to our morals since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md). For the outline, see [OUTLINE.md](OUTLINE.md).
+_Properly Partisan_ analyzes the how the Democratic and Republican parties have appealed to our morals since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md). For the outline, see [OUTLINE.md](OUTLINE.md).
 
 **This repository contains data collection, sanitization, and analysis. The main graphic and website has moved to the [@brtacks/foundations](https://github.com/brtacks/foundations) repository.**
 
