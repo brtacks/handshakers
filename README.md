@@ -19,13 +19,13 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 - [x] *Analysis:* engine to get a targeted word frequency for any transcript
 - [x] *1<sup>st</sup> Aggregator:* combining word frequencies for each debate to a Democrat and Republican key
 - [x] *2<sup>nd</sup> Aggregator:* combining debate scores for each year (separate primary & general)
-- [ ] *Writing:* outline and write the article
-- [ ] *Website:* make the website
-- [ ] *Data Visualization:* use D3 to create awesome data visualizations
+- [x] *Writing:* outline and write the article
+- [x] *Website:* make the website
+- [x] *Data Visualization:* use D3 to create awesome data visualizations
 
 # Literature
 
-## On Measuring Text
+## MOn easuring Text
 - [_Measuring Moral Culture_](https://kenan.ethics.duke.edu/wp-content/uploads/2014/03/Vaisey-and-Miles-Measuring-Moral-Culture-12-16-13.pdf)
 - [_Liberals and Conservatives Rely on Different Sets of Moral Foundations_](http://www-bcf.usc.edu/~jessegra/papers/GrahamHaidtNosek.2009.Moral%20foundations%20of%20liberals%20and%20conservatives.JPSP.pdf) Study 4, page 1038-1040
 - [_Measuring Moral Rhetoric in Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) (1-13)
@@ -34,6 +34,8 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 - [_An Empirical Exploration of Moral Foundations Theory in Partisan News Sources_](https://pdfs.semanticscholar.org/efcc/bf80826d94d15871b077ea75d47722937c40.pdf)
 - [_Moral Foundations and Heterogeneity in Ideological Preferences_](http://www.jstor.org/stable/23481157)
 - [_Morality Between the Lines: Detecting Moral Sentiment In Text_](http://morteza-dehghani.net/wp-content/uploads/morality-lines-detecting.pdf)
+- [ Framing Moral Evaluations: Moral Foundations in U.S. Newspaper Coverage of Mosque Controversies ](https://cedar.wwu.edu/cedarbooks/3/)
+- [ The Content Analysis of Media Frames: Toward Improving Reliability and Validity ](https://onlinelibrary.wiley.com/doi/full/10.1111/j.1460-2466.2008.00384.x)
 
 # Data
 
