@@ -1,6 +1,7 @@
 # python
 *.pyc
 venv/
+.ipynb_checkpoints
 
 # emacs
 \#*\#
@@ -8,5 +9,3 @@ venv/
 
 # misc
 .DS_Store
-.idea
-.vscode
