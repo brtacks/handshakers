@@ -25,7 +25,7 @@ Debate transcripts can be found at [The American Presidency Project](http://www.
 
 # Literature
 
-## MOn easuring Text
+## On Measuring Text
 - [_Measuring Moral Culture_](https://kenan.ethics.duke.edu/wp-content/uploads/2014/03/Vaisey-and-Miles-Measuring-Moral-Culture-12-16-13.pdf)
 - [_Liberals and Conservatives Rely on Different Sets of Moral Foundations_](http://www-bcf.usc.edu/~jessegra/papers/GrahamHaidtNosek.2009.Moral%20foundations%20of%20liberals%20and%20conservatives.JPSP.pdf) Study 4, page 1038-1040
 - [_Measuring Moral Rhetoric in Text_](https://www.researchgate.net/publication/258698999_Measuring_Moral_Rhetoric_in_Text) (1-13)
