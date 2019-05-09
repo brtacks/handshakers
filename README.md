@@ -2,7 +2,7 @@
 
 _Properly Partisan_ analyzes the how the Democratic and Republican parties have appealed to our morals since 1960 (the year of the first general presidential debate). For article notes, see [NOTES.md](NOTES.md). For the outline, see [OUTLINE.md](OUTLINE.md).
 
-**This repository contains data collection, sanitization, and analysis. The main graphic and website has moved to the [@brtacks/foundations](https://github.com/brtacks/foundations) repository.**
+**This repository contains data collection, sanitization, and analysis. The graphics live in [@brtacks/foundations](https://github.com/brtacks/foundations).**
 
 Debate transcripts can be found at [The American Presidency Project](http://www.presidency.ucsb.edu/debates.php).
 
